@@ -1,8 +1,13 @@
 
 .side-panel{
     height: 100vh;
-    width: 350px;
-    background-color: rgb(99, 99, 207);
+    width: 20%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    z-index: 1;
+    border-right: 1px solid #fcfcfc;
+    position: relative;
+    transition: width .1s linear;
+    
 }
 .container{
     height: 100vh;
@@ -10,45 +15,154 @@
     display: flex;
     align-items: center;
 }
+.shrink{
+    height: 50px;
+}
+.shrink button{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 20px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background-color: #726f8d;
+    transition: all .2s ease-in;
+}
+.shrink button:hover{
+    background-color: #636175;
+    /* background-color: #1900ffe0; */
+}
+.shrink button:active{
+    background-color: #3c3b49;
+    /* background-color: #1900ff; */
+    /* background-color: blue; */
+}
+.shrink .icon{
+    font-size: 20px;
+    color: white;
+}
+
 .link-container{
     width: 100%;
-    height: 85vh;
-    background-color: cornflowerblue;
+    height: 73vh;
+    background-color: rgb(236, 236, 236);
 }
 
 .link-container ul li{
     list-style-type: none;
-    margin-left: 50px;
+    margin-left: 55px;
+    transition: display .2s linear;
 }
 .link-container ul a{
     width: 100%;
-    height: 70px;
-    padding-left: 25px;
+    height: 52px;
+    padding-left: 35px;
     text-decoration: none;
     font-size: 18px;
     display: flex;
     align-items: center;
-    color: black;
-    transition: all .2s ease-out;
+    color: #0f0f0f;
 }
 .link-container ul a:hover{
-    background-color: rgb(185, 185, 187);
+    background-color: rgba(211, 211, 211, 0.541);
+    color: #727272;
 }
-.icon{
-    font-size: 25px;
+.link-container ul a:active{
+    background-color: rgba(161, 161, 161, 0.541);
+    color: #727272;
 }
-.user{
-    height: 15vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.link-container ul a:hover .icon{
+    color: #727272;
+}
+.link-container .icon{
     font-size: 25px;
+    color: black;
+    margin-left: -5px;
+    height: 25px;
+    width: 25px;
+    transition: all .3ms ease-out;
+}
 
+.logout{
+    height: 55px;
 }
-.pages{
-    height: 100vh;
+.logout button{
+    height: 100%;
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
+    padding-right: 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 600;
+    color: #000;
+    /* background-color: #383838; */
+    transition: color .3ms linear,
+    background-color .2s ease-in;
 }
+.logout button:hover{
+    color: #727272;
+    background-color: rgba(156, 156, 156, 0.541);
+}
+.logout button:active{
+    background-color: rgba(119, 119, 119, 0.541);
+}
+.logout .icon{
+    font-size:30px;
+    color: rgb(0, 0, 0);
+}
+.logout button:hover .icon{
+    color: #727272;
+}
+.user{
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    background-color: #726f8d;
+    color: #fcfcfc;
+    transition: all .4ms linear;
+}
+.pages{
+    height: 100vh;
+    display: flex;
+    width: 90%;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: space-between; */
+    background-color: rgb(241, 245, 241);
+    /* z-index: -1; */
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+    transition: width .35s linear;
+}
+
+.pages h4{ 
+    font-size: 14px;
+    color: #fcfcfc;
+    align-self: flex-start; 
+    font-size: 21px;
+    font-weight: 500;
+    margin-left: 40px;
+    padding-bottom: 15px;
+    text-transform: capitalize;
+}
+
+.pages nav{
+    width: 100%;
+    height: 10vh;
+    margin-bottom: 30px;
+    padding: 20px 0px 38px 30px;
+    background-color: #726f8d;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
