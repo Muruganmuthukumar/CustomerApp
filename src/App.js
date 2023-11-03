@@ -12,6 +12,12 @@ import { useState } from 'react';
 function App() {
   const [editingItem,setEditingItem]=useState();
   const [toggle,setToggle]=useState(true)
+  const styles ={
+    width:"100%",
+    height:"100vh",
+    color:"blue",
+  }
+
   return (
     <div className="App">
         <BrowserRouter>
@@ -20,8 +26,8 @@ function App() {
                   <Route index element={<Dashboard />} />
                   <Route path="about" element={<About />} />
                   <Route path="order" element={<Order />} />
-                  <Route path="product" element={<Product />} />
-                  <Route path="customer" element={<Customer editingItem={editingItem} setEditingItem={setEditingItem} setToggle={setToggle} toggle={toggle} />}/>
+                  <Route path="product" element={<Product toggle={toggle} />} />
+                  <Route path="customer" element={<Customer styles={styles} editingItem={editingItem} setEditingItem={setEditingItem} setToggle={setToggle} toggle={toggle} />}/>
                   <Route path="customer-edit" element={<CustomerEdit editingItem={editingItem} setEditingItem={setEditingItem} />}/>
               </Route>
           </Routes>

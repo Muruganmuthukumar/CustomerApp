@@ -13,10 +13,14 @@
 .cust-container h3{
     font-size: 14pt;
     margin: 0px 10px 10px 10px;
+    text-transform: capitalize;
+}
+.cust-container h4{
+    background-color: #fff;
 }
 .cust-container table img{
-    height: 55px;
-    width: 55px;
+    height: 45px;
+    width: 45px;
     margin-top: 4px;
 }
 
@@ -36,12 +40,12 @@
 }
 
 .cust-container table thead tr{
-    height: 50px;
+    height: 45px;
     /* background-color: aqua; */
 }
 .cust-container table tbody tr{
     border-bottom: 2px solid rgb(207, 207, 207);
-    height: 60px;
+    height: 10px;
 }
 
 .cust-container table tbody td{
@@ -58,12 +62,12 @@
 }
 
 .member-icon{
-    font-size: 25px;
+    font-size: 22px;
 }
 
 .cust-container button{
-    height: 40px;
-    width: 40px;
+    height: 38px;
+    width: 38px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -76,7 +80,7 @@
 }
 
 .cust-container button .icon{
-    font-size: 20px;
+    font-size: 18px;
 }
 .cust-container button:first-child{
     background-color: rgba(0, 156, 0, 0.815);
