@@ -1,55 +1,71 @@
 import React, { useEffect, useState } from "react";
-import "../Styles/Customer.css";
-import { useNavigate } from "react-router-dom";
-// import ReactPaginate from "react-paginate";
 import List from "../components/List";
-import { useDispatch } from "react-redux";
-import {
-  list,
-  listColumnName,
-  listCount,
-  listType,
-} from "../redux/List/listSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { list, listColumnName, listType } from "../redux/List/listSlice";
+import { updated_Customer } from "../redux/customer/customerSlice";
 
-export default function Customer({toggle}) {
-  const navigate = useNavigate();
+export default function Customer({ toggle }) {
+  const { updatedCustomer }=useSelector((state)=>state.customer)
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const columnName = {
-      firstname: "First Name",
-      lastname: "Last Name",
-      email: "Email",
-      mobile: "Mobile",
-      membership: "Membership",
+    firstname: "First Name",
+    lastname: "Last Name",
+    email: "Email",
+    mobile: "Mobile",
+    membership: "Membership",
   };
 
+  // const { editingCustomer } = useSelector((state)=>state.customer)
+  // console.log(editingCustomer);
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch("http://localhost:5000/customers");
+        const response = await fetch("https://customer-vwy2.onrender.com/customers");
         const data = await response.json();
         setData(data);
       } catch (err) {
-        console.log("Error Fetching Customers Data", err);
+        console.error("Error Fetching Customers Data", err);
       }
     }
     fetchData();
   }, []);
+
   dispatch(list(data));
-  dispatch(listCount("Customer"));
   dispatch(listColumnName(columnName));
   dispatch(listType("customer"));
 
-
-  // const handleEdit = (data) => {
-  //   console.log(data);
-  //   setEditingItem(data);
-  //   navigate("/customer-edit");
-  // };
+  const updateCustomer = async (userData) => {
+    try {
+      const response = await fetch(
+        `https://customer-vwy2.onrender.com/customers/${userData.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userData),
+        }
+      );
+      const newData = response.json();
+      setData(data.map((item) => (item.id === userData.id ? newData : item)));
+      dispatch(updated_Customer(null));
+    } catch (error) {
+      console.error("Error Updating Data", error);
+    }
+  };
+  if(updatedCustomer!=null){
+    updateCustomer(updatedCustomer);
+    // console.log(updatedCustomer,"updated Customer");
+  }
 
   return (
     <>
-      <List toggle={toggle}/>
+      <div>
+        <div>
+          <List toggle={toggle} />
+        </div>
+      </div>
     </>
   );
 }

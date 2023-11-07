@@ -1,13 +1,14 @@
 
 .side-panel{
-    height: 100vh;
-    width: 20%;
+    height: 100%;
+    width: 6%;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     z-index: 1;
     border-right: 1px solid #fcfcfc;
     position: relative;
-    transition: width .1s linear;
-    
+    transition: width .3s cubic-bezier(0.4, 0, 1, 1);
+    background-color: rgb(236, 236, 236);
+
 }
 .container{
     height: 100vh;
@@ -15,109 +16,110 @@
     display: flex;
     align-items: center;
 }
-.shrink{
+.collapse{
     height: 50px;
 }
-.shrink button{
+.collapse button{
     height: 100%;
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
     padding-right: 20px;
     border: none;
     outline: none;
     cursor: pointer;
-    background-color: #726f8d;
+    background-color: #9c9c9c;
     transition: all .2s ease-in;
+    opacity: 80%;
 }
-.shrink button:hover{
+.collapse button:hover{
+    opacity: 1;
+}
+.collapse button:active{
     background-color: #636175;
-    /* background-color: #1900ffe0; */
 }
-.shrink button:active{
-    background-color: #3c3b49;
-    /* background-color: #1900ff; */
-    /* background-color: blue; */
-}
-.shrink .icon{
+.collapse .icon{
     font-size: 20px;
-    color: white;
+    color: black;
+    margin-left: 20px;
 }
 
 .link-container{
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* align-items: center; */
+}
+.link-content{
     width: 100%;
-    height: 73vh;
-    background-color: rgb(236, 236, 236);
+    height: 90%;
+    padding-top: 30px;
+    /* background-color: rgb(236, 236, 236); */
 }
-
-.link-container ul li{
+.link-content ul{
+    height: auto;
+}
+.link-content ul li{
     list-style-type: none;
-    margin-left: 55px;
-    transition: display .2s linear;
+    margin-left: 30px;
 }
-.link-container ul a{
+.link-content ul a{
     width: 100%;
     height: 45px;
     padding-left: 35px;
     text-decoration: none;
-    font-size: 18px;
+    font-size: 17px;
     display: flex;
     align-items: center;
     color: #0f0f0f;
+    /* transition: all .3s ease-in; */
+    transition: all .3s cubic-bezier(0.4, 0, 1, 1);
 }
-.link-container ul a:hover{
+.link-content ul .open:hover{
     background-color: rgba(211, 211, 211, 0.541);
     color: #727272;
 }
-.link-container ul a:active{
+.link-content ul .open:active{
     background-color: rgba(161, 161, 161, 0.541);
     color: #727272;
 }
-.link-container ul a:hover .icon{
-    color: #727272;
-}
-.link-container .icon{
-    font-size: 25px;
-    color: black;
-    margin-left: -5px;
-    height: 25px;
-    width: 25px;
-    transition: all .3ms ease-out;
-}
-
-.logout{
-    height: 55px;
-}
-.logout button{
-    height: 100%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding-right: 20px;
-    border: none;
-    cursor: pointer;
-    font-size: 20px;
-    font-weight: 600;
-    color: #000;
-    /* background-color: #383838; */
+.link-content ul .close{
+    /* transition: background-color .3s ease-in; */
     transition: color .3ms linear,
     background-color .2s ease-in;
 }
-.logout button:hover{
-    color: #727272;
-    background-color: rgba(156, 156, 156, 0.541);
+.link-content ul .close:active{
+    background-color: rgba(128, 128, 128, 0.541);
 }
-.logout button:active{
-    background-color: rgba(119, 119, 119, 0.541);
+
+.link-content ul a:hover .icon{
+    color: #747474;
 }
-.logout .icon{
-    font-size:30px;
-    color: rgb(0, 0, 0);
+
+.link-content .icon{
+    font-size: 23px;
+    color: black;
+    margin-left: -5px;
+    transition: all .3ms linear;
 }
-.logout button:hover .icon{
-    color: #727272;
+
+.link-content div{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+.link-content a:hover span::after{
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: -18px;
+    width: 45px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: rgba(161, 161, 161, 0.541);
 }
 .user{
     height: 10vh;
@@ -127,12 +129,11 @@
     font-size: 25px;
     background-color: #726f8d;
     color: #fcfcfc;
-    transition: all .4ms linear;
 }
 .pages{
     height: 100vh;
-    display: flex;
     width: 90%;
+    display: flex;
     flex-direction: column;
     align-items: center;
     /* justify-content: space-between; */
@@ -140,7 +141,11 @@
     /* z-index: -1; */
     overflow-y: scroll;
     scroll-behavior: smooth;
-    transition: width .3ms linear;
+    transition: width .3s cubic-bezier(0.4, 0, 1, 1);
+
+}
+.pages::-webkit-scrollbar{
+    width: 0px;
 }
 .pages nav h4{ 
     font-size: 14px;

@@ -1,32 +1,32 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  productList:null,
-  productListCount:null,
-  productListColumName:null,
-  productListEmpty:null,
-}
+  newProduct:null,
+  editingProduct:null,
+  updatedProduct:null,
+  deletingId:null,
+} 
 
 export const productSlice = createSlice({
   name: 'product',
   initialState,
   reducers: {
-    productList:(state, action)=>{
-        state.productList=action.payload;
+    edit_Product:(state, action)=>{
+      state.editingProduct=action.payload;
     },
-    productListColumName:(state, action)=>{
-        state.productListColumName=action.payload
+    updated_Product:(state, action)=>{
+      state.updatedProduct=action.payload
     },
-    productListCount:(state, action)=>{
-        state.productListCount=action.payload
+    delete_Product:(state, action)=>{
+      state.deletingId=action.payload;
     },
-    productListEmpty:(state, action)=>{
-        state.productListEmpty=action.payload
+    add_Product:(state, action)=>{
+      state.newProduct=action.payload
     },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { productList, productListColumName, productListCount, productListEmpty } = productSlice.actions;
+export const { edit_Product, updated_Product, delete_Product, add_Product } = productSlice.actions;
 
 export default productSlice.reducer;

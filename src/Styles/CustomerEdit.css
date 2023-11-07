@@ -1,93 +1,138 @@
-.cust-edit-container{
-    height: 100vh;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.edit-container{
+    height: auto;
+    background-color: #fff;
+    padding: 10px;
+    margin-left: 10px;
+    border-radius: 7px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    transition: width .3s ease-in;
+    position: relative;
+}
+.form-container h3{
+    font-size: 28px;
+    align-self: flex-start;
+}
+.form-container h3:after{
+    content: '';
+    position: absolute; 
+    margin-bottom: -10px;
+    top: 83px;
+    left: 10px;
+    right: 10px;
+    width: 97%;
+    height: 2px;
+    background-color: rgb(204, 204, 204);
+    opacity: 90%;
 }
 .form-container{
     height: auto;
-    width: 550px;
+    width: auto;
+    padding:20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.form-container form{
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 50px 0px;
+}   
+.form-container form .input-box{
+    width: 255px;
+    height: 60px;
+    margin: 20px 20px 30px 0px;
+    font-size: 16px;
+    border: 1px solid rgb(204, 204, 204);
+    outline: none;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    pointer-events: none;
+    /* background-color: burlywood; */
+    position: relative;
+}
+.form-container form input{
+    width: 100%;
+    height: 100%;
+    padding-left: 10px;
+    font-size: 15px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+}
+.form-container form .input-box:focus-within{
+    border:1px solid blue;
+}
+.form-container form .input-box:not(:focus-within):hover{
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.form-container form .input-box label{
+    top: -28px;
+    margin-left: 5px;   
+    position: absolute;
+    text-transform: capitalize;
+    font-size: 17px;
+}
+.form-container .btn-container{
+    /* background-color: aqua; */
+    align-self: flex-end;
+    margin-right: 14px;
+    display: flex;
+}
+.form-container button{
+    width: 110px;
+    height: 50px;
+    margin: 8px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    font-size: 18px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.767) -3px 5px 6px -3px;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
-    padding: 8px 10px 8px 10px;
-    border-radius: 30px;
-    background-color: rgba(150, 150, 150, 0.767);
-    position: relative;
+    gap: 8px;
+    transition: all .2s ease-in;
+}
+.form-container button:first-child:active{
+    opacity: 95%;
+}
+.form-container button:first-child{
+    margin-right: 20px;
+    background-color: rgba(128, 128, 128, 0.733);
+    opacity: 95%;
+    color: black;
+}
+.form-container button:hover{
+    opacity: 75%;
+}
+.form-container button:last-child{
+    background-color: rgba(0, 0, 255, 0.801);
+    opacity: 95%;
+    color: white;
+}
+.form-container button:last-child:hover{
+    opacity:75%;
+}
+.form-container button:last-child:active{
+    opacity: 95%;
 }
 .form-container img{
-    height: 120px;
-    width: 120px;
-    border-radius: 50%;
-}
-.form-container form{
-    width: 400px;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    /* background-color: blueviolet; */
-}
-.form-container form input[type=text],[type=email]{
-    width: 350px;
-    height: 45px;
-    margin: 20px;
-    padding: 15px;
-    border: none;
+    height: 130px;
+    width: 130px;
+    margin-left:30px;
+    margin-top: 45px;
     border-radius: 8px;
-    font-size: 16px;
-}
-
-.member{
-    height: 50px;
-    width: 400px;
-    display: flex;
-    justify-content: center; 
-    align-items: center; 
-    /* background-color: burlywood;   */
-}
-.member input{
-    height: 20px;
-    width: 30px;
-    /* margin-left: 60px; */
-}
-.member label{
-    color: white;
-    font-size: 18px;
-    margin-right: 20px;
-}
-
-.form-container form button{
-    height: 45px;
-    width: 350px;
-    border-radius: 8px;
-    background-color: rgb(44, 189, 44);
-    color: white;
-    font-size: 18px;
-    text-transform: uppercase;
-    border: none;
     cursor: pointer;
-    margin: 15px 0px 10px 0px;
-}
-.form-container form button:hover{
-    background-color: rgb(16, 170, 16);
-}
-.close-btn{
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    height: 30px;
-    width: 30px;
-    border-radius: 50%;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 18px;
-}   
-
-.edit-page{
-    position: absolute;
-    top: 50%;
-    left: 50%;
+    box-shadow: 2px 2px 12px rgba(182, 182, 182, 0.384);
 }

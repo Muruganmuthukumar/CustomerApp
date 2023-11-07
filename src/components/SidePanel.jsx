@@ -6,58 +6,145 @@ import { CgLogOut } from "react-icons/cg";
 
 export default function SidePanel({ toggle, setToggle }) {
   const location = useLocation();
-  // const [menuStyles,setMenuStyles]=useState({})
   const handleMenuClose = () => {
-    // setMenuStyles(
-    //   {
-    //   color:"red",
-    //   fontSize:"30px"
-    // })
     setToggle(!toggle);
   };
+
   return (
     <div className="container">
-      <div className="side-panel" style={{ width:(toggle ? "6%" : "20%") }}>
-        <div className="user" style={{fontSize:toggle?"16px":"25px"}}>Admin</div>
+      <div className="side-panel" style={{ width: toggle ? "6vw" : "18vw" }}>
+        <div className="user" style={{ fontSize: toggle ? "16px" : "25px" }}>
+          Admin
+        </div>
         <div className="link-container">
-          <ul>
-            <Link to={"/"}>
-              <FaChartLine className="icon" />
-              <li style={{ display:toggle ? "none" : "block"}}>DashBoard</li>
-            </Link>
+          <div className="link-content">
+            <ul>
+              <Link to={"/"} className={toggle ? "close" : "open"}>
+                {toggle ? (
+                  <div>
+                    <FaChartLine className="icon" />
+                    {toggle && <span></span>}
+                  </div>
+                ) : (
+                  <>
+                    <div>
+                      <FaChartLine className="icon" />
+                    </div>
+                    <li>
+                      <span>
+                        DashBoard
+                      </span>
+                    </li>
+                  </>
+                )}
+              </Link>
 
-            <Link to={"/customer"}>
-              <FaUser className="icon" />
-              <li style={{ display: toggle ? "none" : "block" }}>Customer</li>
-            </Link>
-            <Link to={"/order"}>
-              <FaCartShopping className="icon" />
-              <li style={{ display: toggle ? "none" : "block" }}>Order</li>
-            </Link>
-            <Link to={"/product"}>
-              <FaStoreAlt className="icon" />
-              <li style={{ display: toggle ? "none" : "block" }}>Product</li>
-            </Link>
-            <Link to={"/about"}>
-              <FaInfoCircle className="icon" />
-              <li style={{ display: toggle ? "none" : "block" }}>About</li>
-            </Link>
-          </ul>
-        </div>
-        <div className="logout">
-          <button>
-            <CgLogOut className="icon" />
-            <span style={{ display: toggle ? "none" : "block" }}>Logout</span>
-          </button>
-        </div>
-        <div className="shrink">
-          <button onClick={handleMenuClose}>
-            {toggle ? (
-              <FaChevronRight className="icon" />
-            ) : (
-              <FaChevronLeft className="icon" />
-            )}
-          </button>
+              <Link to={"/customer"} className={toggle ? "close" : "open"}>
+                {toggle ? (
+                  <div>
+                    <FaUser className="icon" />
+                    {toggle && <span></span>}
+                  </div>
+                ) : (
+                  <>
+                    <div>
+                      <FaUser className="icon" />
+                    </div>
+                    <li>
+                      <span>
+                        Customer
+                      </span>
+                    </li>
+                  </>
+                )}
+              </Link>
+              <Link to={"/order"} className={toggle ? "close" : "open"}>
+                {toggle ? (
+                  <div>
+                    <FaCartShopping className="icon" />
+                    {toggle && <span></span>}
+                  </div>
+                ) : (
+                  <>
+                    <div>
+                      <FaCartShopping className="icon" />
+                    </div>
+                    <li>
+                      <span>
+                        Order
+                      </span>
+                    </li>
+                  </>
+                )}
+              </Link>
+              <Link to={"/product"} className={toggle ? "close" : "open"}>
+                {toggle ? (
+                  <div>
+                    <FaStoreAlt className="icon" />
+                    {toggle && <span></span>}
+                  </div>
+                ) : (
+                  <>
+                    <div>
+                      <FaStoreAlt className="icon" />
+                    </div>
+                    <li>
+                      <span>
+                        Product
+                      </span>
+                    </li>
+                  </>
+                )}
+              </Link>
+              <Link to={"/about"} className={toggle ? "close" : "open"}>
+                {toggle ? (
+                  <div>
+                    <FaInfoCircle className="icon" />
+                    {toggle && <span></span>}
+                  </div>
+                ) : (
+                  <>
+                    <div>
+                      <FaInfoCircle className="icon" />
+                    </div>
+                    <li>
+                      <span>
+                        About
+                      </span>
+                    </li>
+                  </>
+                )}
+              </Link>
+              <Link to={"/sign-in"} className={toggle ? "close" : "open"}>
+                {toggle ? (
+                  <div>
+                    <CgLogOut className="icon" />
+                    {toggle && <span></span>}
+                  </div>
+                ) : (
+                  <>
+                    <div>
+                      <CgLogOut className="icon" />
+                    </div>
+                    <li>
+                      <span>
+                        SignOut
+                      </span>
+                    </li>
+                  </>
+                )}
+              </Link>
+            </ul>
+          </div>
+          <div className="collapse">
+            <button onClick={handleMenuClose}>
+              {toggle ? (
+                <FaChevronRight className="icon icon-right" />
+              ) : (
+                <FaChevronLeft className="icon icon-left" />
+              )}
+            </button>
+          </div>
         </div>
       </div>
       <div className="pages" style={{ width: toggle ? "100%" : "90%" }}>

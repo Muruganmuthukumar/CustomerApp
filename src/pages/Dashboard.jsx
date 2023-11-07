@@ -35,7 +35,7 @@ export default function Dashboard() {
   };
   return (
     <>
-      <div className="dash-container cust-container">
+      <div className="dash-container pages-container">
       <div className="">
         DoughNut Chart
         <Doughnut data={data} />

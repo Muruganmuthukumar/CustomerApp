@@ -3,19 +3,19 @@ import "../Styles/CustomerEdit.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updated_Customer } from "../redux/customer/customerSlice";
-import { useRef } from "react";
+import { updated_Product } from "../redux/product/productSlice";
+// import { useRef } from "react";
+import { FaChevronLeft, FaRupeeSign, FaSave } from "react-icons/fa";
 
-function CustomerEdit({ toggle }) {
-  const fileRef = useRef(null);
-  const { editingCustomer } = useSelector((state) => state.customer);
+function ProductEdit({ toggle }) {
+//   const fileRef = useRef(null);
+  const { editingProduct } = useSelector((state) => state.product);
   const [editingItem, setEditingItem] = useState([]);
-  const [image, setImage] = useState(null);
-  // const [border, setBorder]=useState(false);
+//   const [image, setImage] = useState(null);
   const dispatch = useDispatch();
   useEffect(() => {
-    setEditingItem((prev) => ({ ...prev, ...editingCustomer }));
-  }, [editingCustomer]);
+    setEditingItem((prev) => ({ ...prev, ...editingProduct }));
+  }, [editingProduct]);
   
   const navigate = useNavigate();
   const handleChange = (e) => {
@@ -25,19 +25,23 @@ function CustomerEdit({ toggle }) {
       [id]: value,
     });
   };
-  // console.log(editingItem);
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(updated_Customer(editingItem));
-    navigate("/customer");
+    dispatch(updated_Product(editingItem));
+    // console.log(editingItem,"Submitted Data");
+    navigate("/product");
   };
-  
+
   const handleClose = () => {
-    navigate("/customer");
+    navigate("/product");
   };
-  const handleImage = (e) => {
-    setImage(e.target.files[0]);
-  };
+//   const handleImage = (e) => {
+//     // console.log(e.target.files[0]);
+//     setImage(e.target.files[0]);
+//     editingItem.thumbnail=e.target.files[0]
+//     console.log(editingItem.thumbnail);
+//   };
+  // console.log(image);
   return (
     <>
       <div
@@ -45,9 +49,9 @@ function CustomerEdit({ toggle }) {
         style={{ width: toggle ? "65vw" : "70vw" }}
       >
         <div className="form-container">
-          <h3>Customer</h3>
+          <h3>Product</h3>
           <div>
-            <input
+            {/* <input
               hidden
               ref={fileRef}
               type="file"
@@ -57,6 +61,7 @@ function CustomerEdit({ toggle }) {
             {image ? (
               <img
                 onClick={() => fileRef.current.click()}
+                style={{ cursor: "pointer",border:"3px solid red" }}
                 src={URL.createObjectURL(image)}
                 alt="avatar"
               />
@@ -64,60 +69,73 @@ function CustomerEdit({ toggle }) {
               <img
                 onClick={() => fileRef.current.click()}
                 style={{ cursor: "pointer" }}
-                src={editingItem.photoURL}
+                src={editingItem.thumbnail}
                 alt="avatar"
               />
-            )}
+            )} */}
           </div>
           <form>
             <div>
               <div className="input-box">
-                <label htmlFor="firstname">Firstname</label>
+                <label htmlFor="title">title</label>
                 <input
                   type="text"
-                  id="firstname"
+                  id="title"
                   required
-                  placeholder="Firstname"
-                  value={editingItem.firstname}
+                  placeholder="title"
+                  value={editingItem.title}
                   onChange={handleChange}
                 />
               </div>
             </div>
             <div>
               <div className="input-box">
-                <label htmlFor="lastname">Lastname</label>
+                <label htmlFor="brand">brand</label>
                 <input
                   type="text"
-                  id="lastname"
+                  id="brand"
                   required
-                  placeholder="Lastname"
-                  value={editingItem.lastname}
+                  placeholder="brand"
+                  value={editingItem.brand}
                   onChange={handleChange}
                 />
               </div>
             </div>
             <div>
               <div className="input-box">
-                <label htmlFor="email">Email</label>
+                <label htmlFor="price">price(<FaRupeeSign style={{height:"15px", width:"15px"}}/>)</label>
                 <input
-                  type="email"
-                  id="email"
+                  type="price"
+                  id="price"
                   required
-                  placeholder="Email"
-                  value={editingItem.email}
+                  placeholder="price"
+                  value={editingItem.price}
                   onChange={handleChange}
                 />
               </div>
             </div>
             <div>
               <div className="input-box">
-                <label htmlFor="mobile">Mobile</label>
+                <label htmlFor="rating">rating</label>
                 <input
                   type="text"
-                  id="mobile"
+                  id="rating"
                   required
-                  placeholder="Mobile"
-                  value={editingItem.mobile}
+                  placeholder="rating"
+                  value={editingItem.rating}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+            <div>
+              <div className="input-box">
+                <label htmlFor="stock">quantity</label>
+                <input
+                  type="text"
+                  id="stock"
+                  required
+                  placeholder="stock"
+                  value={editingItem.stock}
                   onChange={handleChange}
                 />
               </div>
@@ -125,9 +143,13 @@ function CustomerEdit({ toggle }) {
           </form>
           <div className="btn-container">
             <button onClick={handleClose} className="close-btn">
-              Back
+                <FaChevronLeft className="icon" />
+                Back
             </button>
-            <button onClick={handleSubmit}>Save</button>
+            <button onClick={handleSubmit}>
+                <FaSave className="icon"/>
+                Save
+            </button>
           </div>
         </div>
       </div>
@@ -135,4 +157,4 @@ function CustomerEdit({ toggle }) {
   );
 }
 
-export default CustomerEdit;
+export default ProductEdit;

@@ -1,0 +1,194 @@
+.pages-container{
+    height: auto;
+    background-color: #fff;
+    padding: 15px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    border-radius: 7px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    transition: width .3s ease-in;
+    overflow-x: scroll;
+}
+.pages-container::-webkit-scrollbar{
+    display: none;
+}
+.pages-container h3{
+    font-size: 14pt;
+    margin: 0px 10px 15px 10px;
+    text-transform: capitalize;
+}
+.pages-container h4{
+    background-color: #fff;
+}
+.pages-container table img{
+    height: 45px;
+    width: 45px;
+    margin: 7px 0px 3px 0px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 12px rgba(182, 182, 182, 0.589);
+}
+
+.pages-container table{
+    height: 100%;
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.pages-container table thead{
+    border-bottom: 2px solid rgb(207, 207, 207);
+    border-top: 2px solid rgb(207, 207, 207);
+}
+
+.pages-container table thead tr{
+    height: 45px;
+}
+.pages-container table thead tr th{
+    font-size: 15px;
+}
+.pages-container table tbody tr{
+    border-bottom: 2px solid rgb(207, 207, 207);
+    height: 10px;
+}
+
+.pages-container table tbody td{
+    font-size: 14px;
+}
+.pages-container table tbody td:nth-child(2){
+    text-transform: capitalize;
+}
+.pages-container table tbody td:nth-child(3){
+    text-transform: capitalize;
+}
+.pages-container tbody tr td:last-child{
+    gap: 15px;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    margin: 5px;
+}
+.member-icon{
+    font-size: 22px;
+}
+.pages-container button{
+    height: 38px;
+    width: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    transition: all .2s ease-in;
+}
+
+.pages-container button .icon{
+    font-size: 18px;
+}
+.pages-container button:first-child{
+    background-color: rgba(0, 156, 0, 0.815);
+}
+
+.pages-container button:first-child:hover{
+    background-color: rgba(50, 184, 50, 0.815);
+}
+.pages-container button:first-child:active{
+    background-color: rgba(0, 156, 0, 0.815);
+}
+
+.pages-container button .tooltip{
+    position: absolute;
+    top: 55px;
+    left: 0;
+    height: 0;
+    width: 40px;
+    font-size: 10px;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fcfcfc;
+    border-radius: 5px;
+    background-color: rgba(92, 92, 92, 0.712);
+    visibility: hidden;
+    transition: all .2s ease-in;
+}
+.pages-container button:hover .tooltip{
+    height: 20px;
+    visibility: visible;
+}
+.pages-container button:last-child{
+    background-color: rgb(207, 207, 207);
+}
+.edit-icon{
+    color: #fcfcfc;
+}
+.delete-icon{
+    color: rgb(109, 109, 109);
+}
+.pages-container button:last-child:hover{
+    background-color: rgba(168, 168, 168, 0.705);
+    /* opacity: 85%; */
+}
+.pagination-container{
+    height: 40px;
+    width: 100%;
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* background-color: rgb(235, 230, 230); */
+    /* border: 1px solid grey; */
+    /* border-radius: 8px; */
+    padding: 0px 8px 0px 8px;
+    margin:10px 20px 0px 0px;
+}
+.pagination-container a{
+    height: 28px;
+    width: 28px;
+    font-weight: lighter;
+    margin: 0px 5px 0px 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid grey;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all .2s linear;
+}
+.pagination-container a:hover{
+    background-color: #dddddd67;
+}
+.prev-label .prev-icon{
+    font-size: 15px;
+}
+.next-label .next-icon{
+    margin-left: 2px;
+    font-size: 15px;
+}
+.selected a{
+    color: rgba(0, 0, 255, 0.678);
+    background-color: #dddddd67;
+    border-color: rgba(0, 0, 255, 0.685);
+}
+.disabled a{
+    color: rgba(207, 207, 207, 0.658);
+    border-color: rgb(206, 206, 206);
+    cursor: default;
+    background-color: transparent;
+}
+.disabled a:hover{
+    background-color: transparent;
+}
+
+
+
