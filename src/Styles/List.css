@@ -20,7 +20,13 @@
     text-transform: capitalize;
 }
 .pages-container h4{
-    background-color: #fff;
+    color: #000;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 10px;
+    width: 100%;
+    margin-left: 0px;
+    text-transform: capitalize;
 }
 .pages-container table img{
     height: 45px;
@@ -47,7 +53,11 @@
     height: 45px;
 }
 .pages-container table thead tr th{
+    text-align: left;
     font-size: 15px;
+}
+.pages-container table thead tr th:last-child{
+    text-align: center;
 }
 .pages-container table tbody tr{
     border-bottom: 2px solid rgb(207, 207, 207);
@@ -55,6 +65,7 @@
 }
 
 .pages-container table tbody td{
+    text-align: left;
     font-size: 14px;
 }
 .pages-container table tbody td:nth-child(2){
@@ -64,22 +75,22 @@
     text-transform: capitalize;
 }
 .pages-container tbody tr td:last-child{
-    gap: 15px;
+    gap: 20px;
     height: 100%;
     width: 100%;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    margin: 5px;
+    margin-right: -60px;
 }
 .member-icon{
     font-size: 22px;
 }
 .pages-container button{
     height: 38px;
-    width: 38px;
-    border-radius: 50%;
+    width: 70px;
+    border-radius: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -95,20 +106,28 @@
     font-size: 18px;
 }
 .pages-container button:first-child{
-    background-color: rgba(0, 156, 0, 0.815);
+    background-color: rgba(0, 10, 156, 0.815);
 }
 
 .pages-container button:first-child:hover{
-    background-color: rgba(50, 184, 50, 0.815);
+    background-color: rgba(59, 50, 184, 0.815);
 }
 .pages-container button:first-child:active{
-    background-color: rgba(0, 156, 0, 0.815);
+    background-color: rgba(10, 0, 156, 0.815);
 }
 
+.pages-container button:last-child{
+    background-color: rgb(207, 207, 207);
+    transition: all .2s ease-in;
+}
+.pages-container button:last-child:hover{
+    background-color: rgba(168, 168, 168, 0.705);
+    /* opacity: 85%; */
+}
 .pages-container button .tooltip{
     position: absolute;
     top: 55px;
-    left: 0;
+    left: 20px;
     height: 0;
     width: 40px;
     font-size: 10px;
@@ -126,19 +145,13 @@
     height: 20px;
     visibility: visible;
 }
-.pages-container button:last-child{
-    background-color: rgb(207, 207, 207);
-}
 .edit-icon{
     color: #fcfcfc;
 }
 .delete-icon{
     color: rgb(109, 109, 109);
 }
-.pages-container button:last-child:hover{
-    background-color: rgba(168, 168, 168, 0.705);
-    /* opacity: 85%; */
-}
+
 .pagination-container{
     height: 40px;
     width: 100%;
@@ -190,5 +203,66 @@
     background-color: transparent;
 }
 
+.loader {
+    width: 18px;
+    height: 18px;
+    border: 3px solid #747474;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+    margin: 8px;
+}
 
+    @keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+} 
+
+.list-top{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    /* background-color: aqua; */
+}
+.list-top .btn-container{
+    height: 100%;
+    width: 300px;
+    /* background-color: red; */
+    display: flex;
+    justify-content: space-between;
+    margin-right: 30px;
+}
+.list-top .btn-container button{
+    height: 45px;
+    width: 100px;
+    border-radius: 7px;
+    font-weight: 600;
+    font-size: 17px;
+    letter-spacing: .7px;
+    transition: all .2s ease-in;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.list-top .btn-container button:hover{
+    opacity: 85%;
+}
+.list-top .btn-container button:active{
+    opacity: 95%;
+}
+.list-top .btn-container button:first-child{
+    background-color: green;
+    color: white;
+}
+.list-top .btn-container button:last-child{
+    background-color: rgb(233, 34, 67);
+    color:#fcfcfc;
+}
 

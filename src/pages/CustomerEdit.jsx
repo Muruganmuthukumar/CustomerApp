@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updated_Customer } from "../redux/customer/customerSlice";
 import { useRef } from "react";
+import { FaChevronLeft, FaSave } from "react-icons/fa";
 
 function CustomerEdit({ toggle }) {
   const fileRef = useRef(null);
@@ -16,7 +17,7 @@ function CustomerEdit({ toggle }) {
   useEffect(() => {
     setEditingItem((prev) => ({ ...prev, ...editingCustomer }));
   }, [editingCustomer]);
-  
+
   const navigate = useNavigate();
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -31,7 +32,7 @@ function CustomerEdit({ toggle }) {
     dispatch(updated_Customer(editingItem));
     navigate("/customer");
   };
-  
+
   const handleClose = () => {
     navigate("/customer");
   };
@@ -125,9 +126,13 @@ function CustomerEdit({ toggle }) {
           </form>
           <div className="btn-container">
             <button onClick={handleClose} className="close-btn">
+              <FaChevronLeft className="icon" />
               Back
             </button>
-            <button onClick={handleSubmit}>Save</button>
+            <button onClick={handleSubmit}>
+              <FaSave className="icon" />
+              Save
+            </button>
           </div>
         </div>
       </div>

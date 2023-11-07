@@ -1,7 +1,7 @@
 import "../Styles/SidePanel.css";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { FaChartLine, FaInfoCircle, FaStoreAlt, FaUser } from "react-icons/fa";
-import { FaCartShopping, FaChevronLeft, FaChevronRight } from "react-icons/fa6";
+import { FaCartShopping, FaChevronLeft } from "react-icons/fa6";
 import { CgLogOut } from "react-icons/cg";
 
 export default function SidePanel({ toggle, setToggle }) {
@@ -12,7 +12,7 @@ export default function SidePanel({ toggle, setToggle }) {
 
   return (
     <div className="container">
-      <div className="side-panel" style={{ width: toggle ? "6vw" : "18vw" }}>
+      <div className="side-panel" style={{ width: toggle ? "7vw" : "18vw" }}>
         <div className="user" style={{ fontSize: toggle ? "16px" : "25px" }}>
           Admin
         </div>
@@ -23,7 +23,6 @@ export default function SidePanel({ toggle, setToggle }) {
                 {toggle ? (
                   <div>
                     <FaChartLine className="icon" />
-                    {toggle && <span></span>}
                   </div>
                 ) : (
                   <>
@@ -31,9 +30,7 @@ export default function SidePanel({ toggle, setToggle }) {
                       <FaChartLine className="icon" />
                     </div>
                     <li>
-                      <span>
-                        DashBoard
-                      </span>
+                      <span>DashBoard</span>
                     </li>
                   </>
                 )}
@@ -43,7 +40,6 @@ export default function SidePanel({ toggle, setToggle }) {
                 {toggle ? (
                   <div>
                     <FaUser className="icon" />
-                    {toggle && <span></span>}
                   </div>
                 ) : (
                   <>
@@ -51,9 +47,7 @@ export default function SidePanel({ toggle, setToggle }) {
                       <FaUser className="icon" />
                     </div>
                     <li>
-                      <span>
-                        Customer
-                      </span>
+                      <span>Customer</span>
                     </li>
                   </>
                 )}
@@ -62,7 +56,6 @@ export default function SidePanel({ toggle, setToggle }) {
                 {toggle ? (
                   <div>
                     <FaCartShopping className="icon" />
-                    {toggle && <span></span>}
                   </div>
                 ) : (
                   <>
@@ -70,9 +63,7 @@ export default function SidePanel({ toggle, setToggle }) {
                       <FaCartShopping className="icon" />
                     </div>
                     <li>
-                      <span>
-                        Order
-                      </span>
+                      <span>Order</span>
                     </li>
                   </>
                 )}
@@ -81,7 +72,6 @@ export default function SidePanel({ toggle, setToggle }) {
                 {toggle ? (
                   <div>
                     <FaStoreAlt className="icon" />
-                    {toggle && <span></span>}
                   </div>
                 ) : (
                   <>
@@ -89,9 +79,7 @@ export default function SidePanel({ toggle, setToggle }) {
                       <FaStoreAlt className="icon" />
                     </div>
                     <li>
-                      <span>
-                        Product
-                      </span>
+                      <span>Product</span>
                     </li>
                   </>
                 )}
@@ -100,7 +88,6 @@ export default function SidePanel({ toggle, setToggle }) {
                 {toggle ? (
                   <div>
                     <FaInfoCircle className="icon" />
-                    {toggle && <span></span>}
                   </div>
                 ) : (
                   <>
@@ -108,9 +95,7 @@ export default function SidePanel({ toggle, setToggle }) {
                       <FaInfoCircle className="icon" />
                     </div>
                     <li>
-                      <span>
-                        About
-                      </span>
+                      About
                     </li>
                   </>
                 )}
@@ -119,7 +104,6 @@ export default function SidePanel({ toggle, setToggle }) {
                 {toggle ? (
                   <div>
                     <CgLogOut className="icon" />
-                    {toggle && <span></span>}
                   </div>
                 ) : (
                   <>
@@ -127,22 +111,22 @@ export default function SidePanel({ toggle, setToggle }) {
                       <CgLogOut className="icon" />
                     </div>
                     <li>
-                      <span>
-                        SignOut
-                      </span>
+                      <span>SignOut</span>
                     </li>
                   </>
                 )}
               </Link>
             </ul>
           </div>
-          <div className="collapse">
+          <div className="collapse" style={{left:toggle?"75px":"212px"}}>
             <button onClick={handleMenuClose}>
-              {toggle ? (
-                <FaChevronRight className="icon icon-right" />
-              ) : (
-                <FaChevronLeft className="icon icon-left" />
-              )}
+              <FaChevronLeft
+                className="icon icon-right"
+                style={{
+                  rotate: toggle ? "180deg" : "0deg",
+                  transition: "all .2s linear",
+                }}
+              />
             </button>
           </div>
         </div>
