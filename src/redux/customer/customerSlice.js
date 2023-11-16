@@ -5,6 +5,7 @@ const initialState = {
   editingCustomer:null,
   updatedCustomer:null,
   deletingId:null,
+  listData:null,
 }
 
 export const customerSlice = createSlice({
@@ -23,10 +24,13 @@ export const customerSlice = createSlice({
     add_customer:(state, action)=>{
       state.newCustomer=action.payload
     },
+    customerListData:(state, action)=>{
+      state.listData=action.payload;
+    },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { add_customer, edit_Customer, delete_Customer, updated_Customer } = customerSlice.actions;
+export const { add_customer, edit_Customer, delete_Customer, updated_Customer, customerListData } = customerSlice.actions;
 
 export default customerSlice.reducer; 

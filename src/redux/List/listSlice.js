@@ -4,7 +4,7 @@ const initialState = {
   list:null,
   listColumName:null,
   listType:'',
-  loading:false,
+  error:'',
 }
 
 export const listSlice = createSlice({
@@ -19,11 +19,14 @@ export const listSlice = createSlice({
     },
     listType:(state, action)=>{
         state.listType=action.payload
+    },
+    setError:(state,action)=>{
+      state.error=action.payload;
     }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { list, listColumnName, listType } = listSlice.actions;
+export const { list, listColumnName, listType, setError } = listSlice.actions;
 
 export default listSlice.reducer;

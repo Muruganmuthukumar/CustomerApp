@@ -2,6 +2,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import listReducer from './List/listSlice';
 import customerReducer from './customer/customerSlice';
 import productReducer from './product/productSlice';
+import orderReducer from './order/orderSlice';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
@@ -9,6 +10,7 @@ const rootReducer = combineReducers({
   list: listReducer,
   customer: customerReducer,
   product:productReducer,
+  order:orderReducer,
 })
 
 const persistConfig = {

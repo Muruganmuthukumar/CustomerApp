@@ -1,22 +1,22 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "../Styles/CustomerEdit.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { edit_Customer, updated_Customer } from "../redux/customer/customerSlice";
-import { useRef } from "react";
+import { add_customer } from "../redux/customer/customerSlice";
 import { FaChevronLeft, FaSave } from "react-icons/fa";
+import { useEffect } from "react";
+// import { useRef } from 'react';
 
-function CustomerEdit({ toggle }) {
-  const fileRef = useRef(null);
-  const { editingCustomer } = useSelector((state) => state.customer);
+export default function CustomerAdd({ toggle }) {
+  // const fileRef = useRef(null);
+  const { newCustomer } = useSelector((state) => state.customer);
   const [editingItem, setEditingItem] = useState([]);
-  const [image, setImage] = useState(null);
-  // const [border, setBorder]=useState(false);
+  // const [image, setImage] = useState(null);
   const dispatch = useDispatch();
   useEffect(() => {
-    setEditingItem((prev) => ({ ...prev, ...editingCustomer }));
-  }, [editingCustomer]);
+    setEditingItem((prev) => ({ ...prev, ...newCustomer }));
+  }, [newCustomer]);
 
   const navigate = useNavigate();
   const handleChange = (e) => {
@@ -29,17 +29,20 @@ function CustomerEdit({ toggle }) {
   // console.log(editingItem);
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(updated_Customer(editingItem));
+    // console.log(editingItem);
+    editingItem.photoURL =
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNAUvIj8tIlcc6MemlkLaXGlOLNplzf-3euA&usqp=CAU";
+    dispatch(add_customer(editingItem));
     navigate("/customer");
   };
 
   const handleClose = () => {
     navigate("/customer");
-    dispatch(edit_Customer(null))
   };
-  const handleImage = (e) => {
-    setImage(e.target.files[0]);
-  };
+
+  // const handleImage = (e) => {
+  //     setImage(e.target.files[0]);
+  //   };
   return (
     <>
       <div
@@ -49,7 +52,7 @@ function CustomerEdit({ toggle }) {
         <div className="form-container">
           <h3>Customer</h3>
           <div>
-            <input
+            {/* <input
               hidden
               ref={fileRef}
               type="file"
@@ -69,7 +72,7 @@ function CustomerEdit({ toggle }) {
                 src={editingItem.photoURL}
                 alt="avatar"
               />
-            )}
+            )} */}
           </div>
           <form>
             <div>
@@ -95,7 +98,7 @@ function CustomerEdit({ toggle }) {
                   value={editingItem.lastname}
                   onChange={handleChange}
                 />
-                  <label htmlFor="lastname">Lastname</label>
+                <label htmlFor="lastname">Lastname</label>
               </div>
             </div>
             <div>
@@ -132,7 +135,7 @@ function CustomerEdit({ toggle }) {
             </button>
             <button onClick={handleSubmit}>
               <FaSave className="icon" />
-              Save
+              Add
             </button>
           </div>
         </div>
@@ -140,5 +143,3 @@ function CustomerEdit({ toggle }) {
     </>
   );
 }
-
-export default CustomerEdit;

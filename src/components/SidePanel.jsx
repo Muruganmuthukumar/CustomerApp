@@ -2,7 +2,6 @@ import "../Styles/SidePanel.css";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { FaChartLine, FaInfoCircle, FaStoreAlt, FaUser } from "react-icons/fa";
 import { FaCartShopping, FaChevronLeft } from "react-icons/fa6";
-import { CgLogOut } from "react-icons/cg";
 
 export default function SidePanel({ toggle, setToggle }) {
   const location = useLocation();
@@ -13,8 +12,27 @@ export default function SidePanel({ toggle, setToggle }) {
   return (
     <div className="container">
       <div className="side-panel" style={{ width: toggle ? "7vw" : "18vw" }}>
-        <div className="user" style={{ fontSize: toggle ? "16px" : "25px" }}>
-          Admin
+        <div>
+          {toggle ? (
+            <>
+              <div className="user">
+                <div className="img">
+                  <img src="images/profile.webp" alt="profile" />
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="user">
+                <div className="img">
+                  <img src="images/profile.webp" alt="profile" />
+                </div>
+                <span style={{ display: toggle ? "none" : "block" }}>
+                  Admin
+                </span>
+              </div>
+            </>
+          )}
         </div>
         <div className="link-container">
           <div className="link-content">
@@ -23,6 +41,7 @@ export default function SidePanel({ toggle, setToggle }) {
                 {toggle ? (
                   <div>
                     <FaChartLine className="icon" />
+                    <span className="tooltip">Dashboard</span>
                   </div>
                 ) : (
                   <>
@@ -40,6 +59,7 @@ export default function SidePanel({ toggle, setToggle }) {
                 {toggle ? (
                   <div>
                     <FaUser className="icon" />
+                    <span className="tooltip">Customer</span>
                   </div>
                 ) : (
                   <>
@@ -56,6 +76,7 @@ export default function SidePanel({ toggle, setToggle }) {
                 {toggle ? (
                   <div>
                     <FaCartShopping className="icon" />
+                    <span className="tooltip">Order</span>
                   </div>
                 ) : (
                   <>
@@ -72,6 +93,7 @@ export default function SidePanel({ toggle, setToggle }) {
                 {toggle ? (
                   <div>
                     <FaStoreAlt className="icon" />
+                    <span className="tooltip">Product</span>
                   </div>
                 ) : (
                   <>
@@ -88,37 +110,20 @@ export default function SidePanel({ toggle, setToggle }) {
                 {toggle ? (
                   <div>
                     <FaInfoCircle className="icon" />
+                    <span className="tooltip">About</span>
                   </div>
                 ) : (
                   <>
                     <div>
                       <FaInfoCircle className="icon" />
                     </div>
-                    <li>
-                      About
-                    </li>
-                  </>
-                )}
-              </Link>
-              <Link to={"/sign-in"} className={toggle ? "close" : "open"}>
-                {toggle ? (
-                  <div>
-                    <CgLogOut className="icon" />
-                  </div>
-                ) : (
-                  <>
-                    <div>
-                      <CgLogOut className="icon" />
-                    </div>
-                    <li>
-                      <span>SignOut</span>
-                    </li>
+                    <li>About</li>
                   </>
                 )}
               </Link>
             </ul>
           </div>
-          <div className="collapse" style={{left:toggle?"75px":"212px"}}>
+          <div className="collapse">
             <button onClick={handleMenuClose}>
               <FaChevronLeft
                 className="icon icon-right"
@@ -133,8 +138,6 @@ export default function SidePanel({ toggle, setToggle }) {
       </div>
       <div className="pages" style={{ width: toggle ? "100%" : "90%" }}>
         <nav>
-          {/* <h2 style={toggle?{...menuStyles}:{}}>Demo</h2> */}
-          {/* <h2>Demo</h2> */}
           <h4>
             {location.pathname === "/"
               ? "DashBoard"

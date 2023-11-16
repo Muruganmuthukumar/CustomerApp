@@ -1,14 +1,14 @@
 .pages-container{
     height: auto;
     background-color: #fff;
-    padding: 15px;
+    padding: 15px 20px;
     margin-top: 20px;
     margin-bottom: 10px;
     border-radius: 7px;
     display: flex;
     flex-direction: column;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    transition: width .3s ease-in;
+    transition: all .3s cubic-bezier(0.4, 0, 1, 1);
     overflow-x: scroll;
 }
 .pages-container::-webkit-scrollbar{
@@ -63,6 +63,26 @@
     border-bottom: 2px solid rgb(207, 207, 207);
     height: 10px;
 }
+.pages-container table tbody tr td{
+    position: relative;
+}
+.pages-container table tbody tr .success{
+    text-shadow: 0px 0px 2px rgb(27, 255, 27);
+    color: rgba(0, 214, 0, 0.671);
+    border-radius: 50%;
+    animation: animate 1.5s linear infinite; 
+}
+@keyframes animate{ 
+    0%{ 
+      opacity: 0; 
+    } 
+    50%{ 
+      opacity: 85%; 
+    } 
+    100%{ 
+      opacity: 0; 
+    } 
+  } 
 
 .pages-container table tbody td{
     text-align: left;
@@ -82,12 +102,12 @@
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    margin-right: -60px;
+    margin-right: -20px;
 }
 .member-icon{
     font-size: 22px;
 }
-.pages-container button{
+.pages-container tbody button{
     height: 38px;
     width: 70px;
     border-radius: 6px;
@@ -102,29 +122,29 @@
     transition: all .2s ease-in;
 }
 
-.pages-container button .icon{
+.pages-container tbody button .icon{
     font-size: 18px;
 }
-.pages-container button:first-child{
+.pages-container tbody button:first-child{
     background-color: rgba(0, 10, 156, 0.815);
 }
 
-.pages-container button:first-child:hover{
+.pages-container tbody button:first-child:hover{
     background-color: rgba(59, 50, 184, 0.815);
 }
-.pages-container button:first-child:active{
+.pages-container tbody button:first-child:active{
     background-color: rgba(10, 0, 156, 0.815);
 }
 
-.pages-container button:last-child{
+.pages-container tbody button:last-child{
     background-color: rgb(207, 207, 207);
     transition: all .2s ease-in;
 }
-.pages-container button:last-child:hover{
+.pages-container tbody button:last-child:hover{
     background-color: rgba(168, 168, 168, 0.705);
     /* opacity: 85%; */
 }
-.pages-container button .tooltip{
+.pages-container tbody button .tooltip{
     position: absolute;
     top: 55px;
     left: 20px;
@@ -141,7 +161,7 @@
     visibility: hidden;
     transition: all .2s ease-in;
 }
-.pages-container button:hover .tooltip{
+.pages-container tbody button:hover .tooltip{
     height: 20px;
     visibility: visible;
 }
@@ -204,15 +224,16 @@
 }
 
 .loader {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     border: 3px solid #747474;
     border-bottom-color: transparent;
     border-radius: 50%;
     display: inline-block;
     box-sizing: border-box;
     animation: rotation 1s linear infinite;
-    margin: 8px;
+    margin: 25px 0px 10px 0px;
+    align-self: center;
 }
 
     @keyframes rotation {
@@ -229,16 +250,16 @@
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
-    margin-bottom: 10px;
+    justify-content:space-between;
+    margin:10px 0px;
     /* background-color: aqua; */
 }
 .list-top .btn-container{
     height: 100%;
-    width: 300px;
+    width: 120px;
     /* background-color: red; */
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     margin-right: 30px;
 }
 .list-top .btn-container button{
@@ -250,19 +271,85 @@
     letter-spacing: .7px;
     transition: all .2s ease-in;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    outline: none;
+    cursor: pointer;
 }
 .list-top .btn-container button:hover{
     opacity: 85%;
 }
+.list-top .btn-container button:hover .icon{
+    opacity: 85%;
+}
 .list-top .btn-container button:active{
-    opacity: 95%;
+    opacity: 98%;
+}
+.list-top .btn-container button:active .icon{
+    opacity: 98%;
 }
 .list-top .btn-container button:first-child{
     background-color: green;
     color: white;
 }
-.list-top .btn-container button:last-child{
-    background-color: rgb(233, 34, 67);
-    color:#fcfcfc;
+.list-top .btn-container button:disabled{
+    opacity: 70%;
+    cursor: not-allowed;
 }
-
+.list-top .btn-container button:disabled .icon{
+    opacity: 70%;
+}
+.list-top .btn-container button .icon{
+    height: 25px;
+    width: 25px;
+}
+.list-top .search{
+    width: 350px;
+    height: 35px;
+    /* background-color: red; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid grey;
+    border-radius: 7px;
+    position: relative;
+}
+.list-top .search input{
+    height: 100%;
+    width: 90%;
+    padding: 8px;
+    border-radius:7px 0px 0px 7px;
+    border: none;
+    outline: none;
+    border-right: 1px solid grey;
+    font-size: 15px;    
+    background-color: #fcfcfc;
+    color: black;
+}
+.list-top .search input:disabled{
+    background-color: #b9b9b925;
+    color: grey;
+}
+.list-top .search select{
+    height: 100%;
+    width: 100px;
+    border-radius: 0px 7px 7px 0px;
+    font-size: 13px;
+    border: none;
+    padding: 3px;
+    outline: none;
+    cursor: pointer;
+    background-color: rgb(248, 248, 248);
+    color: #000000;
+}
+.list-top .search select option{
+    background-color: rgba(141, 141, 141, 0.247);
+}
+.list-top .search select:hover{
+    opacity: 85%;
+}
+.list-top .search select:active{
+    opacity: 98%;
+}

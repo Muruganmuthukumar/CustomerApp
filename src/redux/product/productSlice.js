@@ -5,6 +5,8 @@ const initialState = {
   editingProduct:null,
   updatedProduct:null,
   deletingId:null,
+  listData:null,
+
 } 
 
 export const productSlice = createSlice({
@@ -23,10 +25,13 @@ export const productSlice = createSlice({
     add_Product:(state, action)=>{
       state.newProduct=action.payload
     },
+    productListData:(state, action)=>{
+      state.listData=action.payload;
+    },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { edit_Product, updated_Product, delete_Product, add_Product } = productSlice.actions;
+export const { edit_Product, updated_Product, delete_Product, add_Product, productListData } = productSlice.actions;
 
 export default productSlice.reducer;
