@@ -96,7 +96,7 @@ export default function Product({ toggle }) {
       const result = listData.map((item) =>
         item.id === editedProduct.id ? editedProduct : item
       );
-      setData([...result]);
+      setData(result);
       // console.log(editedProduct,"data");
       // console.log(result);
       dispatch(updated_Product(null));
