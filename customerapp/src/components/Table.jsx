@@ -9,7 +9,7 @@ import {
 import { FaCircleXmark } from "react-icons/fa6";
 import { FaRupeeSign } from "react-icons/fa";
 import ReactPaginate from "react-paginate";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 
 function Table({
   list,
@@ -17,18 +17,15 @@ function Table({
   listColumName,
   handleEdit,
   currentItems,
-  setEditingData,
+  setDeletingId,
   setShow,
   show,
   pageCount,
   handlePageClick,
 }) {
 
-  const {error}=useSelector((state)=>state.list)
+  // const {error}=useSelector((state)=>state.list)
 
-  const refreshPage = () => {
-    window.location.reload(false);
-  };
   return (
     <>
       {list.length === 0 ? (
@@ -38,7 +35,7 @@ function Table({
             {listType === "product" && "No Product To Display"}
             {listType === "order" && "No Order To Display"}
             <br />
-            This will take some time please wait...
+            List Is Empty !
           </h4>
           <span className="loader"></span>
         </>
@@ -50,11 +47,11 @@ function Table({
                 {listType === "customer" && (
                   <tr>
                     <th>Avatar</th>
-                    <th>{listColumName.firstname}</th>
-                    <th>{listColumName.lastname}</th>
-                    <th>{listColumName.email}</th>
-                    <th>{listColumName.mobile}</th>
-                    <th>{listColumName.membership}</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Mobile</th>
+                    <th>Membership</th>
                     <th>Actions</th>
                   </tr>
                 )}
@@ -95,7 +92,7 @@ function Table({
                 {currentItems &&
                   currentItems.map((data) => {
                     return (
-                      <tr key={data.id}>
+                      <tr key={data._id}>
                         {listType === "customer" && (
                           <>
                             <td>
@@ -154,7 +151,7 @@ function Table({
                           </button>
                           <button
                             onClick={() => {
-                              setEditingData(data);
+                              setDeletingId(data._id);
                               setShow(!show);
                             }}
                           >
@@ -165,36 +162,6 @@ function Table({
                       </tr>
                     );
                   })}
-                {list.length === 0 && (
-                  <tr>
-                    <td
-                      style={{
-                        width: "100%",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      <h4>
-                        List is Empty, click
-                        <span
-                          onClick={refreshPage}
-                          href="#"
-                          style={{
-                            color: "blue",
-                            textDecoration: "underline",
-                            cursor: "pointer",
-                          }}
-                          value="Reload"
-                        >
-                          Reload
-                        </span>
-                        to fetch data
-                      </h4>
-                    </td>
-                  </tr>
-                )}
-                
               </tbody>
             </table>
             <ReactPaginate

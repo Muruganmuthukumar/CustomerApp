@@ -14,10 +14,20 @@ import Table from "./Table";
 import ListTop from "./ListTop";
 // import { setError } from "../redux/List/listSlice";
 
-export default function List({ toggle, handleSearch, select,handleSearchType, setSearchType,setFilterData, newData, setSearchItem }) {
+export default function List({
+  toggle,
+  handleSearch,
+  select,
+  handleSearchType,
+  setSearchType,
+  setFilterData,
+  newData,
+  setSearchItem,
+  removeCustomer,
+}) {
   const { list, listColumName, listType } = useSelector((state) => state.list);
   const [show, setShow] = useState(false);
-  const [editingData, setEditingData] = useState(null);
+  const [deletingId, setDeletingId] = useState(null);
   const [newList, setNewList] = useState([]);
   const [data, setData] = useState([]);
   const navigate = useNavigate();
@@ -29,31 +39,15 @@ export default function List({ toggle, handleSearch, select,handleSearchType, se
   const pageCount = Math.ceil(list.length / itemsPerPage);
 
   useEffect(() => {
-    try{
+    try {
       setNewList([...list]);
       setData([...list]);
-      console.log(newList,"newList");
-    }
-    catch(err){
+      // console.log(newList,"newList");
+    } catch (err) {
       // dispatch(setError("List is Empty"))
-      console.log("List is Empty",err);
+      console.log("List is Empty", err);
     }
   }, [list]);
-
-  // console.log(data);
-  // const handleSearch = (e) => {
-  //   const searchTerm = e.target.value.replace(/[^a-zA-Z0-9]/g, "");
-  //   setSearchItem(searchTerm);
-  //   console.log(searchTerm);
-  //   if (searchTerm === "") {
-  //     setNewList(data);
-  //   } else {
-  //     // if(searchItem.length===0&&searchItem.length===1){
-  //     //   setNewList([...list])
-  //     // }
- 
-  //   }
-  // };
 
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % data.length;
@@ -63,9 +57,7 @@ export default function List({ toggle, handleSearch, select,handleSearchType, se
   const handleEdit = (data) => {
     switch (listType) {
       case "customer":
-        dispatch(edit_Customer(data));
-        dispatch(customerListData(newList))
-        navigate("/customer-edit");
+        navigate(`/${data._id}/customer-edit`);
         break;
       case "product":
         dispatch(edit_Product(data));
@@ -82,10 +74,10 @@ export default function List({ toggle, handleSearch, select,handleSearchType, se
         break;
     }
   };
-  const handleDelete = (data) => {
+  const handleDelete = (id) => {
     switch (listType) {
       case "customer":
-        dispatch(delete_Customer(data.id));
+        removeCustomer(id);
         setShow(!show);
         break;
       case "product":
@@ -120,7 +112,7 @@ export default function List({ toggle, handleSearch, select,handleSearchType, se
         <div>
           <Card
             handleDelete={handleDelete}
-            data={editingData}
+            id={deletingId}
             show={show}
             setShow={setShow}
           />
@@ -149,7 +141,7 @@ export default function List({ toggle, handleSearch, select,handleSearchType, se
           listColumName={listColumName}
           handleEdit={handleEdit}
           currentItems={currentItems}
-          setEditingData={setEditingData}
+          setDeletingId={setDeletingId}
           setShow={setShow}
           show={show}
           pageCount={pageCount}

@@ -1,48 +1,38 @@
-import React from 'react'
+import React from "react";
 
-function SearchBox({handleSearch, searchItem, handleSearchType, select, setSearchType, setData, newData, setSearchItem}) {
-    // console.log(select);
+function SearchBox({
+  handleSearch,
+  searchItem,
+  handleSearchType,
+  select,
+  setSearchType,
+  setData,
+  newData,
+  setSearchItem,
+}) {
   return (
     <>
-        <div className="search">
-          <input
-            type="text"
-            placeholder="Type to Search..."
-            onInput={(e) => handleSearch(e, setData, newData, setSearchItem)}
-            value={searchItem}
-          />
-          <select name="" id="" onChange={(e)=>handleSearchType(e, setSearchType)}>
-            {/* <option  value="all">
-              All
+      <div className="search">
+        <input
+          type="text"
+          placeholder="Type to Search..."
+          onInput={(e) => handleSearch(e, setData, newData, setSearchItem)}
+          value={searchItem}
+        />
+        <select
+          name=""
+          id=""
+          onChange={(e) => handleSearchType(e, setSearchType)}
+        >
+          {select.map((item, index) => (
+            <option key={index} value={item}>
+              {item}
             </option>
-            {listType === "customer" && (
-              <>
-                <option value="firstname">Firstname</option>
-                <option value="lastname">Lastname</option>
-                <option value="email">Email</option>
-                <option value="mobile">Mobile</option>
-              </>
-            )}
-            {listType === "product" && (
-              <>
-                <option value="productname">Productname</option>
-                <option value="brand">Brand</option>
-              </>
-            )}
-            {listType === "order" && (
-              <>
-                <option value="customername">Customername</option>
-                <option value="productname">Productname</option>
-              </>
-            )} */}
-            {select.map((item, index)=>{
-                return <>
-                <option key={index} value={item}>{item}</option></>
-            })}
-          </select>
-        </div>
+          ))}
+        </select>
+      </div>
     </>
-  )
+  );
 }
 
-export default SearchBox
+export default SearchBox;

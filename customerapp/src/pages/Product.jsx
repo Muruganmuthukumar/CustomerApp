@@ -48,7 +48,6 @@ export default function Product({ toggle }) {
       console.log("Error Fetching Products Data", err);
     }
   }
-
   dispatch(list(data));
   dispatch(listColumnName(columnName));
   dispatch(listType("product"));
@@ -100,6 +99,7 @@ export default function Product({ toggle }) {
       // console.log(editedProduct,"data");
       // console.log(result);
       dispatch(updated_Product(null));
+      fetchData();
     } catch (error) {
       console.error("Error Updating Data", error);
     }

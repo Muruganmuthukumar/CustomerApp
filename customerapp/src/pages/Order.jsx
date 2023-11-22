@@ -35,9 +35,7 @@ export default function Order({ toggle }) {
   }, []);
   async function fetchData() {
     try {
-      const response = await fetch(
-        "https://customer-vwy2.onrender.com/orders"
-      );
+      const response = await fetch("https://customer-vwy2.onrender.com/orders");
       const data = await response.json();
       setData(data);
       setNewData(data);
@@ -45,11 +43,10 @@ export default function Order({ toggle }) {
       console.error("Error Fetching Orders Data", err);
     }
   }
-  
   dispatch(list(data));
   dispatch(listColumnName(columnName));
   dispatch(listType("order"));
-
+  
   const updateOrder = async (orderData) => {
     try {
       const response = await fetch(
@@ -62,10 +59,13 @@ export default function Order({ toggle }) {
           body: JSON.stringify(orderData),
         }
       );
-      const editedOrder =await response.json();
-      const result = listData.map((item) => (item.id === editedOrder.id ? editedOrder : item))
-      setData(result)
+      const editedOrder = await response.json();
+      const result = listData.map((item) =>
+      item.id === editedOrder.id ? editedOrder : item
+      );
+      setData(result);
       dispatch(updated_Order(null));
+      fetchData();
     } catch (error) {
       console.error("Error Updating Data", error);
     }
@@ -80,11 +80,11 @@ export default function Order({ toggle }) {
     fetch(`https://customer-vwy2.onrender.com/orders/${orderId}`, {
       method: "DELETE",
     })
-      .then(() => {
-        const removedOrder = data.filter((data) => data.id !== orderId); //id only
-        // console.log(removedOrder);
-        setData(removedOrder);
-        fetchData();
+    .then(() => {
+      const removedOrder = data.filter((data) => data.id !== orderId); //id only
+      // console.log(removedOrder);
+      setData(removedOrder);
+      fetchData();
         dispatch(delete_Order(null));
       })
       .catch((error) => console.error("Error Deleting Data", error));

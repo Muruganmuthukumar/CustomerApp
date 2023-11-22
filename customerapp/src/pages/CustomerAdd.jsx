@@ -6,16 +6,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { add_customer } from "../redux/customer/customerSlice";
 import { FaChevronLeft, FaSave } from "react-icons/fa";
 import { useEffect } from "react";
-// import { useRef } from 'react';
+import { useRef } from 'react';
 
 export default function CustomerAdd({ toggle }) {
-  // const fileRef = useRef(null);
+  const fileRef = useRef(null);
   const { newCustomer } = useSelector((state) => state.customer);
   const [editingItem, setEditingItem] = useState([]);
-  // const [image, setImage] = useState(null);
+  const [select, setSelect] = useState(false);
+  const [image, setImage] = useState(null);
   const dispatch = useDispatch();
   useEffect(() => {
-    setEditingItem((prev) => ({ ...prev, ...newCustomer }));
+    setEditingItem({...newCustomer});
   }, [newCustomer]);
 
   const navigate = useNavigate();
@@ -25,13 +26,15 @@ export default function CustomerAdd({ toggle }) {
       ...editingItem,
       [id]: value,
     });
+    // console.log(editingItem);
   };
   // console.log(editingItem);
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log(editingItem);
+    editingItem.membership = select;
     editingItem.photoURL =
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNAUvIj8tIlcc6MemlkLaXGlOLNplzf-3euA&usqp=CAU";
+    console.log(editingItem);
     dispatch(add_customer(editingItem));
     navigate("/customer");
   };
@@ -40,9 +43,10 @@ export default function CustomerAdd({ toggle }) {
     navigate("/customer");
   };
 
-  // const handleImage = (e) => {
-  //     setImage(e.target.files[0]);
-  //   };
+  const handleImage = (e) => {
+    setImage(e.target.files[0]);
+  };
+  // console.log(image);
   return (
     <>
       <div
@@ -51,8 +55,8 @@ export default function CustomerAdd({ toggle }) {
       >
         <div className="form-container">
           <h3>Customer</h3>
-          <div>
-            {/* <input
+          <div className="img-container">
+            <input
               hidden
               ref={fileRef}
               type="file"
@@ -72,7 +76,7 @@ export default function CustomerAdd({ toggle }) {
                 src={editingItem.photoURL}
                 alt="avatar"
               />
-            )} */}
+            )}
           </div>
           <form>
             <div>
@@ -82,7 +86,7 @@ export default function CustomerAdd({ toggle }) {
                   id="firstname"
                   required
                   placeholder=""
-                  value={editingItem.firstname}
+                  value={editingItem.firstname || ''}
                   onChange={handleChange}
                 />
                 <label htmlFor="firstname">Firstname</label>
@@ -95,7 +99,7 @@ export default function CustomerAdd({ toggle }) {
                   id="lastname"
                   required
                   placeholder=""
-                  value={editingItem.lastname}
+                  value={editingItem.lastname || ''}
                   onChange={handleChange}
                 />
                 <label htmlFor="lastname">Lastname</label>
@@ -108,7 +112,7 @@ export default function CustomerAdd({ toggle }) {
                   id="email"
                   required
                   placeholder=""
-                  value={editingItem.email}
+                  value={editingItem.email || ''}
                   onChange={handleChange}
                 />
                 <label htmlFor="email">Email</label>
@@ -121,10 +125,27 @@ export default function CustomerAdd({ toggle }) {
                   id="mobile"
                   required
                   placeholder=""
-                  value={editingItem.mobile}
+                  value={editingItem.mobile || ''}
                   onChange={handleChange}
                 />
-                <label htmlFor="mobile">Mobile</label>
+                <label htmlFor="mobile">mobile</label>
+              </div>
+            </div>
+            <div>
+              <div className="">
+                <select
+                  name=""
+                  id="membership"
+                  onChange={(e)=>setSelect(e.target.value)}
+                  value={select}
+                >
+                  <option className="option" value="true">
+                    Member
+                  </option>
+                  <option className="option" value="false">
+                    Not a Member
+                  </option>
+                </select>
               </div>
             </div>
           </form>

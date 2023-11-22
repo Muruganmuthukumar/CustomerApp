@@ -1,24 +1,23 @@
 import React, { useEffect } from "react";
 import "../Styles/CustomerEdit.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { edit_Customer, updated_Customer } from "../redux/customer/customerSlice";
+import {
+  edit_Customer,
+} from "../redux/customer/customerSlice";
 import { useRef } from "react";
 import { FaChevronLeft, FaSave } from "react-icons/fa";
+import axios from "axios";
 
 function CustomerEdit({ toggle }) {
   const fileRef = useRef(null);
-  const { editingCustomer } = useSelector((state) => state.customer);
   const [editingItem, setEditingItem] = useState([]);
   const [image, setImage] = useState(null);
-  // const [border, setBorder]=useState(false);
   const dispatch = useDispatch();
-  useEffect(() => {
-    setEditingItem((prev) => ({ ...prev, ...editingCustomer }));
-  }, [editingCustomer]);
-
+  const { id } = useParams();
   const navigate = useNavigate();
+
   const handleChange = (e) => {
     const { id, value } = e.target;
     setEditingItem({
@@ -26,16 +25,39 @@ function CustomerEdit({ toggle }) {
       [id]: value,
     });
   };
-  // console.log(editingItem);
-  const handleSubmit = (e) => {
+  // console.log(id);
+  console.log(editingItem);
+  // console.log(select);
+  useEffect(() => {
+    fetchByUserId();
+  }, []);
+  const fetchByUserId = async (e) => {
+    await axios
+      .get(`http://localhost:5000/api/users/${id}`)
+      .then((res) => {
+        setEditingItem(res.data);
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+      });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(updated_Customer(editingItem));
-    navigate("/customer");
+    await axios
+      .put(`http://localhost:5000/api/users/${id}`, editingItem)
+      .then((res) => {
+        console.log(res.data);
+        navigate("/customer");
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+      });
   };
 
   const handleClose = () => {
     navigate("/customer");
-    dispatch(edit_Customer(null))
+    dispatch(edit_Customer(null));
   };
   const handleImage = (e) => {
     setImage(e.target.files[0]);
@@ -79,7 +101,7 @@ function CustomerEdit({ toggle }) {
                   id="firstname"
                   required
                   placeholder=""
-                  value={editingItem.firstname}
+                  value={editingItem.firstname || ""}
                   onChange={handleChange}
                 />
                 <label htmlFor="firstname">Firstname</label>
@@ -92,10 +114,10 @@ function CustomerEdit({ toggle }) {
                   id="lastname"
                   required
                   placeholder=""
-                  value={editingItem.lastname}
+                  value={editingItem.lastname || ""}
                   onChange={handleChange}
                 />
-                  <label htmlFor="lastname">Lastname</label>
+                <label htmlFor="lastname">Lastname</label>
               </div>
             </div>
             <div>
@@ -105,7 +127,7 @@ function CustomerEdit({ toggle }) {
                   id="email"
                   required
                   placeholder=""
-                  value={editingItem.email}
+                  value={editingItem.email || ""}
                   onChange={handleChange}
                 />
                 <label htmlFor="email">Email</label>
@@ -118,11 +140,26 @@ function CustomerEdit({ toggle }) {
                   id="mobile"
                   required
                   placeholder=""
-                  value={editingItem.mobile}
+                  value={editingItem.mobile || ""}
                   onChange={handleChange}
                 />
                 <label htmlFor="mobile">Mobile</label>
               </div>
+            </div>
+            <div className="">
+              <select
+                name=""
+                id="membership"
+                onChange={(e) => setEditingItem({...editingItem, membership:e.target.value})}
+                value={editingItem.membership}
+              >
+                <option className="option" value="true">
+                  Member
+                </option>
+                <option className="option" value="false">
+                  Not a Member
+                </option>
+              </select>
             </div>
           </form>
           <div className="btn-container">

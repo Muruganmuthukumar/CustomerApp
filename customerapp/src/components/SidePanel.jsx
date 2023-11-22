@@ -1,13 +1,23 @@
 import "../Styles/SidePanel.css";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { FaChartLine, FaInfoCircle, FaStoreAlt, FaUser } from "react-icons/fa";
 import { FaCartShopping, FaChevronLeft } from "react-icons/fa6";
+import { isAuthenticated } from "../redux/auth/authSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function SidePanel({ toggle, setToggle }) {
+  const { authentication } = useSelector((state) => state.auth);
   const location = useLocation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handleMenuClose = () => {
     setToggle(!toggle);
   };
+
+  const handleLogout = () => {
+    dispatch(isAuthenticated(false))
+    navigate('/signin')
+  }
 
   return (
     <div className="container">
@@ -121,6 +131,21 @@ export default function SidePanel({ toggle, setToggle }) {
                   </>
                 )}
               </Link>
+              <Link onClick={handleLogout} className={toggle ? "close" : "open"}>
+                {toggle ? (
+                  <div>
+                    <FaChevronLeft className="icon" />
+                    <span className="tooltip">Signout</span>
+                  </div>
+                ) : (
+                  <>
+                    <div>
+                      <FaChevronLeft className="icon" />
+                    </div>
+                    <li>Signout</li>
+                  </>
+                )}
+              </Link>
             </ul>
           </div>
           <div className="collapse">
@@ -129,7 +154,7 @@ export default function SidePanel({ toggle, setToggle }) {
                 className="icon icon-right"
                 style={{
                   rotate: toggle ? "180deg" : "0deg",
-                  transition: "all .2s linear",
+                  transition: ".2s",
                 }}
               />
             </button>
@@ -146,6 +171,7 @@ export default function SidePanel({ toggle, setToggle }) {
         </nav>
         <Outlet />
       </div>
+      {/* <div>{authentication && "Welcome to Home page"}</div> */}
     </div>
   );
 }

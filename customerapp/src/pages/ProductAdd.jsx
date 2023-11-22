@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import "../Styles/CustomerEdit.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -8,13 +8,13 @@ import { FaChevronLeft, FaSave } from "react-icons/fa";
 import { useEffect } from "react";
 
 function ProductAdd({ toggle }) {
-  // const fileRef = useRef(null);
+  const fileRef = useRef(null);
   const { newProduct } = useSelector((state) => state.product);
   const [editingItem, setEditingItem] = useState([]);
-  // const [image, setImage] = useState(null);
+  const [image, setImage] = useState(null);
   const dispatch = useDispatch();
   useEffect(() => {
-    setEditingItem((prev) => ({ ...prev, ...newProduct }));
+    setEditingItem({...newProduct});
   }, [newProduct]);
 
   const navigate = useNavigate();
@@ -40,9 +40,9 @@ function ProductAdd({ toggle }) {
     navigate("/product");
   };
 
-  // const handleImage = (e) => {
-  //     setImage(e.target.files[0]);
-  //   };
+  const handleImage = (e) => {
+      setImage(e.target.files[0]);
+    };
   return (
     <>
       <div
@@ -52,7 +52,7 @@ function ProductAdd({ toggle }) {
         <div className="form-container">
           <h3>Product</h3>
           <div>
-            {/* <input
+            <input
               hidden
               ref={fileRef}
               type="file"
@@ -72,7 +72,7 @@ function ProductAdd({ toggle }) {
                 src={editingItem.photoURL}
                 alt="avatar"
               />
-            )} */}
+            )}
           </div>
 
           <form>

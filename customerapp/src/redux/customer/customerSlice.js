@@ -3,9 +3,6 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   newCustomer:null,
   editingCustomer:null,
-  updatedCustomer:null,
-  deletingId:null,
-  listData:null,
 }
 
 export const customerSlice = createSlice({
@@ -15,22 +12,13 @@ export const customerSlice = createSlice({
     edit_Customer:(state, action)=>{
       state.editingCustomer=action.payload;
     },
-    updated_Customer:(state, action)=>{
-      state.updatedCustomer=action.payload
-    },
-    delete_Customer:(state, action)=>{
-      state.deletingId=action.payload;
-    },
     add_customer:(state, action)=>{
       state.newCustomer=action.payload
-    },
-    customerListData:(state, action)=>{
-      state.listData=action.payload;
     },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { add_customer, edit_Customer, delete_Customer, updated_Customer, customerListData } = customerSlice.actions;
+export const { add_customer, edit_Customer } = customerSlice.actions;
 
 export default customerSlice.reducer; 

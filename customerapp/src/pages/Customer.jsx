@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import List from "../components/List";
 import { useDispatch, useSelector } from "react-redux";
-import { list, listColumnName, listType } from "../redux/List/listSlice";
+import { list, listType } from "../redux/List/listSlice";
 import {
-  delete_Customer,
-  updated_Customer,
   add_customer,
 } from "../redux/customer/customerSlice";
 import {
@@ -12,20 +10,14 @@ import {
   handleSearch,
   handleSearchType,
 } from "../utils/SearchFilter";
+import axios from "axios";
 
 export default function Customer({ toggle }) {
-  const { updatedCustomer, deletingId, newCustomer, listData } = useSelector(
+  const { newCustomer } = useSelector(
     (state) => state.customer
   ); //
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
-  const columnName = {
-    firstname: "First Name",
-    lastname: "Last Name",
-    email: "Email",
-    mobile: "Mobile",
-    membership: "Membership",
-  };
   const [searchType, setSearchType] = useState("");
   const [select, setSelect] = useState([
     "All",
@@ -45,100 +37,55 @@ export default function Customer({ toggle }) {
   }, []);
 
   async function fetchData() {
-    try {
-      const response = await fetch(
-        "https://customer-vwy2.onrender.com/customers"
-      );
-      const data = await response.json();
-      setData(data);
-      setNewData(data);
-    } catch (err) {
-      console.error("Error Fetching Customers Data", err);
-    }
+    await axios
+      .get("http://localhost:5000/api/users")
+      .then((res) => {
+        setData(res.data);
+        setNewData(res.data);
+        // console.log(res);
+      })
+      .catch((err) => {
+        console.log(err.respose.data);
+      });
   }
-  // console.log(data);
-
   dispatch(list(data));
-  dispatch(listColumnName(columnName));
   dispatch(listType("customer"));
+
+  // console.log(data);
 
   const addCustomer = async (newCustomer) => {
     dispatch(add_customer(null));
-    try {
-      const response = await fetch(
-        "https://customer-vwy2.onrender.com/customers",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(newCustomer),
-        }
-      );
-      const newData = await response.json();
-      setData(newData);
-      fetchData();
-      // console.log(listData);
-      // console.log(data);
-    } catch (err) {
-      console.log("Error Adding Data", err);
-    }
+    console.log(newCustomer);
+    await axios
+      .post("http://localhost:5000/api/users", newCustomer)
+      .then((res) => {
+        setData(res.data);
+        console.log(res.data);
+        // console.log(res);
+        fetchData();
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+      });
   };
 
   if (newCustomer != null) {
     addCustomer(newCustomer);
-    // window.location.reload(false);
-    // console.log(newCustomer);
-  }
-  const updateCustomer = async (updatedCustomer) => {
-    try {
-      const response = await fetch(
-        `https://customer-vwy2.onrender.com/customers/${updatedCustomer.id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updatedCustomer),
-        }
-      );
-      const editedCustomer = await response.json();
-      const result = listData.map((item) =>
-        item.id === editedCustomer.id ? editedCustomer : item
-      );
-      setData(result);
-      // console.log(result);
-      // console.log(editedCustomer);
-      dispatch(updated_Customer(null));
-    } catch (error) {
-      console.error("Error Updating Data", error);
-    }
-  };
-  if (updatedCustomer !== null) {
-    updateCustomer(updatedCustomer);
-    // console.log(updatedCustomer, "updated Customer");
-  }
-  const removeCustomer = (customerId) => {
-    fetch(`https://customer-vwy2.onrender.com/customers/${customerId}`, {
-      method: "DELETE",
-    })
-      .then(() => {
-        const removedCustomer = newData.filter(
-          (data) => data.id !== customerId
-        ); //id only
-        // console.log(removedCustomer);
-        setData(removedCustomer);
-        fetchData();
-        dispatch(delete_Customer(null));
-      })
-      .catch((error) => console.error("Error Deleting Data", error));
-  };
-
-  if (deletingId !== null) {
-    // console.log(deletingId);
-    removeCustomer(deletingId);
   }
 
+
+  const removeCustomer = (id) => {
+    axios.delete(`http://localhost:5000/api/users/${id}`).then(() => {
+      const updatedData = data.filter((user) => user._id !== id);
+      setData(updatedData);
+      // console.log(updatedData);
+    }).catch((err) => {
+      console.log(err.response.data);
+    });
+  };
+
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     handleFilterCustomer(
       searchType,
@@ -167,7 +114,7 @@ export default function Customer({ toggle }) {
             setFilterData={setData}
             newData={newData}
             setSearchItem={setSearchItem}
-            updateCustomer={updateCustomer}
+            removeCustomer={removeCustomer}
           />
         </div>
       </div>
