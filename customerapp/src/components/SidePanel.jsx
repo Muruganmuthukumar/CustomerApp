@@ -44,7 +44,10 @@ export default function SidePanel({ toggle, setToggle }) {
             </>
           )}
         </div>
-        <div className="link-container">
+        <div
+          className="link-container"
+          style={{ height: toggle ? "auto" : "0" }}
+        >
           <div className="link-content">
             <ul>
               <Link to={"/"} className={toggle ? "close" : "open"}>
@@ -131,7 +134,10 @@ export default function SidePanel({ toggle, setToggle }) {
                   </>
                 )}
               </Link>
-              <Link onClick={handleLogout} className={toggle ? "close" : "open"}>
+              <Link
+                onClick={handleLogout}
+                className={toggle ? "close" : "open"}
+              >
                 {toggle ? (
                   <div>
                     <FaChevronLeft className="icon" />

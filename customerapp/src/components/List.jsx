@@ -3,13 +3,17 @@ import "../Styles/List.css";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  customerListData,
-  delete_Customer,
   edit_Customer,
 } from "../redux/customer/customerSlice";
-import { delete_Product, edit_Product, productListData } from "../redux/product/productSlice";
+import {
+  edit_Product,
+} from "../redux/product/productSlice";
 import Card from "./Card";
-import { delete_Order, edit_Order, orderListData } from "../redux/order/orderSlice";
+import {
+  delete_Order,
+  edit_Order,
+  orderListData,
+} from "../redux/order/orderSlice";
 import Table from "./Table";
 import ListTop from "./ListTop";
 // import { setError } from "../redux/List/listSlice";
@@ -24,6 +28,8 @@ export default function List({
   newData,
   setSearchItem,
   removeCustomer,
+  removeProduct,
+  searchItem,
 }) {
   const { list, listColumName, listType } = useSelector((state) => state.list);
   const [show, setShow] = useState(false);
@@ -57,11 +63,11 @@ export default function List({
   const handleEdit = (data) => {
     switch (listType) {
       case "customer":
-        navigate(`/${data._id}/customer-edit`);
+        dispatch(edit_Customer(data));
+        navigate("/customer-edit");
         break;
       case "product":
         dispatch(edit_Product(data));
-        dispatch(productListData(newList));
         navigate("/product-edit");
         break;
       case "order":
@@ -81,7 +87,7 @@ export default function List({
         setShow(!show);
         break;
       case "product":
-        dispatch(delete_Product(data.id));
+        removeProduct(id);
         setShow(!show);
         break;
       case "order":
@@ -146,6 +152,7 @@ export default function List({
           show={show}
           pageCount={pageCount}
           handlePageClick={handlePageClick}
+          searchItem={searchItem}
         />
       </div>
     </>

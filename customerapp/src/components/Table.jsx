@@ -22,22 +22,19 @@ function Table({
   show,
   pageCount,
   handlePageClick,
+  searchItem,
 }) {
 
   // const {error}=useSelector((state)=>state.list)
+
 
   return (
     <>
       {list.length === 0 ? (
         <>
-          <h4>
-            {listType === "customer" && "No Customer To Display"}
-            {listType === "product" && "No Product To Display"}
-            {listType === "order" && "No Order To Display"}
-            <br />
-            List Is Empty !
+          <h4 className="exception">
+            no search result for "{searchItem}" 
           </h4>
-          <span className="loader"></span>
         </>
       ) : (
         <>
@@ -58,14 +55,14 @@ function Table({
                 {listType === "product" && (
                   <tr>
                     <th>Product</th>
-                    <th>{listColumName.title}</th>
-                    <th>{listColumName.brand}</th>
+                    <th>Product Name</th>
+                    <th>Brand</th>
+                    <th>Category</th>
                     <th>
-                      {listColumName.price}&nbsp;(
+                      Price&nbsp;(
                       <FaRupeeSign style={{ height: "12px", width: "12px" }} />)
                     </th>
-                    <th>{listColumName.rating}</th>
-                    <th>{listColumName.stock}</th>
+                    <th>Stock</th>
                     <th>Actions</th>
                   </tr>
                 )}
@@ -90,11 +87,11 @@ function Table({
               </thead>
               <tbody>
                 {currentItems &&
-                  currentItems.map((data) => {
-                    return (
-                      <tr key={data._id}>
+                    currentItems.map((data) => {
+                      return (
+                        <tr key={data._id}>
                         {listType === "customer" && (
-                          <>
+                            <> 
                             <td>
                               <img src={data.photoURL} alt="avatar" />
                             </td>
@@ -118,8 +115,8 @@ function Table({
                             </td>
                             <td style={{ maxWidth: "150px" }}>{data.title}</td>
                             <td>{data.brand}</td>
+                            <td>{data.category}</td>
                             <td>{data.price}</td>
-                            <td>{data.rating}</td>
                             <td>{data.stock}</td>
                           </>
                         )}

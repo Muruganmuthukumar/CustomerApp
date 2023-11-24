@@ -11,10 +11,11 @@ function ProductAdd({ toggle }) {
   const fileRef = useRef(null);
   const { newProduct } = useSelector((state) => state.product);
   const [editingItem, setEditingItem] = useState([]);
+  const [select, setSelect] = useState("null");
   const [image, setImage] = useState(null);
   const dispatch = useDispatch();
   useEffect(() => {
-    setEditingItem({...newProduct});
+    setEditingItem({ ...newProduct });
   }, [newProduct]);
 
   const navigate = useNavigate();
@@ -25,24 +26,25 @@ function ProductAdd({ toggle }) {
       [id]: value,
     });
   };
-  // console.log(editingItem);
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log(editingItem);
+    editingItem.category = select;
     editingItem.thumbnail =
-      "https://nayemdevs.com/wp-content/uploads/2020/03/default-product-image.png";
-    editingItem.rating ="0.0."
+    "https://nayemdevs.com/wp-content/uploads/2020/03/default-product-image.png";
     dispatch(add_Product(editingItem));
     navigate("/product");
+    // console.log(editingItem);
   };
+  // console.log(select)
+  // console.log(editingItem);
 
   const handleClose = () => {
     navigate("/product");
   };
 
   const handleImage = (e) => {
-      setImage(e.target.files[0]);
-    };
+    setImage(e.target.files[0]);
+  };
   return (
     <>
       <div
@@ -63,14 +65,17 @@ function ProductAdd({ toggle }) {
               <img
                 onClick={() => fileRef.current.click()}
                 src={URL.createObjectURL(image)}
-                alt="avatar"
+                alt="product"
               />
             ) : (
               <img
                 onClick={() => fileRef.current.click()}
                 style={{ cursor: "pointer" }}
-                src={editingItem.photoURL}
-                alt="avatar"
+                src={
+                  editingItem.photoURL ||
+                  "https://nayemdevs.com/wp-content/uploads/2020/03/default-product-image.png"
+                }
+                alt="product"
               />
             )}
           </div>
@@ -83,7 +88,7 @@ function ProductAdd({ toggle }) {
                   id="title"
                   required
                   placeholder=""
-                  value={editingItem.title}
+                  value={editingItem.title || ''}
                   onChange={handleChange}
                 />
                 <label htmlFor="title">Product Name</label>
@@ -96,10 +101,28 @@ function ProductAdd({ toggle }) {
                   id="brand"
                   required
                   placeholder=""
-                  value={editingItem.brand}
+                  value={editingItem.brand || ''}
                   onChange={handleChange}
                 />
                 <label htmlFor="brand">Brand</label>
+              </div>
+            </div>
+            <div>
+              <div className="">
+                <select
+                  name=""
+                  id="category"
+                  onChange={(e) => setSelect(e.target.value)}
+                  value={select}
+                >
+                  <option defaultChecked={true}>- Category -</option>
+                  <option value="smartphones">Smartphones</option>
+                  <option value="laptops">Laptops</option>
+                  <option value="fragrances">Fragrances</option>
+                  <option value="skincare">Skincare</option>
+                  <option value="groceries">Groceries</option>
+                  <option value="home-decoration">Home-decoration</option>
+                </select>
               </div>
             </div>
             <div>
@@ -109,7 +132,7 @@ function ProductAdd({ toggle }) {
                   id="stock"
                   required
                   placeholder=""
-                  value={editingItem.stock}
+                  value={editingItem.stock || ''}
                   onChange={handleChange}
                 />
                 <label htmlFor="stock">Stock</label>
@@ -122,7 +145,7 @@ function ProductAdd({ toggle }) {
                   id="price"
                   required
                   placeholder=""
-                  value={editingItem.price}
+                  value={editingItem.price || ''}
                   onChange={handleChange}
                 />
                 <label htmlFor="price">Price</label>

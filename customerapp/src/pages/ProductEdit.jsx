@@ -3,9 +3,10 @@ import "../Styles/CustomerEdit.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { edit_Product, updated_Product } from "../redux/product/productSlice";
+import { edit_Product } from "../redux/product/productSlice";
 import { useRef } from "react";
 import { FaChevronLeft, FaRupeeSign, FaSave } from "react-icons/fa";
+import axios from "axios";
 
 function ProductEdit({ toggle }) {
   const fileRef = useRef(null);
@@ -25,11 +26,36 @@ function ProductEdit({ toggle }) {
       [id]: value,
     });
   };
-  const handleSubmit = (e) => {
+
+  useEffect(() => {
+    fetchByProductId();
+  }, []);
+  const fetchByProductId = async () => {
+    await axios
+      .get(`http://localhost:5000/api/products/${editingProduct._id}`)
+      .then((res) => {
+        setEditingItem(res.data);
+        // console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+      });
+  };
+
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    dispatch(updated_Product(editingItem));
-    // console.log(editingItem,"Submitted Data");
-    navigate("/product");
+    await axios
+      .put(
+        `http://localhost:5000/api/products/${editingProduct._id}`,
+        editingItem
+      )
+      .then((res) => {
+        console.log(res.data);
+        navigate("/product");
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+      });
   };
 
   const handleClose = () => {
@@ -82,7 +108,7 @@ function ProductEdit({ toggle }) {
                   id="title"
                   required
                   placeholder=""
-                  value={editingItem.title}
+                  value={editingItem.title || ""}
                   onChange={handleChange}
                 />
                 <label htmlFor="title">productname</label>
@@ -95,10 +121,28 @@ function ProductEdit({ toggle }) {
                   id="brand"
                   required
                   placeholder=""
-                  value={editingItem.brand}
+                  value={editingItem.brand || ""}
                   onChange={handleChange}
                 />
                 <label htmlFor="brand">brand</label>
+              </div>
+            </div>
+            <div>
+              <div className="">
+                <select
+                  name=""
+                  id="category"
+                  onChange={(e) =>setEditingItem({...editingItem,category: e.target.value})}
+                  value={editingItem.category}
+                >
+                  <option defaultChecked={true}>- Category -</option>
+                  <option value="smartphones">Smartphones</option>
+                  <option value="laptops">Laptops</option>
+                  <option value="fragrances">Fragrances</option>
+                  <option value="skincare">Skincare</option>
+                  <option value="groceries">Groceries</option>
+                  <option value="home-decoration">Home-decoration</option>
+                </select>
               </div>
             </div>
             <div>
@@ -108,7 +152,7 @@ function ProductEdit({ toggle }) {
                   id="price"
                   required
                   placeholder=""
-                  value={editingItem.price}
+                  value={editingItem.price || ""}
                   onChange={handleChange}
                 />
                 <label htmlFor="price">
@@ -121,23 +165,10 @@ function ProductEdit({ toggle }) {
               <div className="input-box">
                 <input
                   type="text"
-                  id="rating"
-                  required
-                  placeholder=""
-                  value={editingItem.rating}
-                  onChange={handleChange}
-                />
-                <label htmlFor="rating">rating</label>
-              </div>
-            </div>
-            <div>
-              <div className="input-box">
-                <input
-                  type="text"
                   id="stock"
                   required
                   placeholder=""
-                  value={editingItem.stock}
+                  value={editingItem.stock || ""}
                   onChange={handleChange}
                 />
                 <label htmlFor="stock">quantity</label>

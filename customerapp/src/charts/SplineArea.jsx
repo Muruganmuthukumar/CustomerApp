@@ -56,7 +56,7 @@ class SplineArea extends Component {
           series={this.state.series}
           type="area"
           height={250}
-          width={500}
+          width={450}
         />
       </div>
     );

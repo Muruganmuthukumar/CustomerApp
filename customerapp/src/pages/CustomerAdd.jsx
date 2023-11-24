@@ -73,7 +73,10 @@ export default function CustomerAdd({ toggle }) {
               <img
                 onClick={() => fileRef.current.click()}
                 style={{ cursor: "pointer" }}
-                src={editingItem.photoURL}
+                src={
+                  editingItem.photoURL ||
+                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNAUvIj8tIlcc6MemlkLaXGlOLNplzf-3euA&usqp=CAU"
+                }
                 alt="avatar"
               />
             )}
@@ -86,7 +89,7 @@ export default function CustomerAdd({ toggle }) {
                   id="firstname"
                   required
                   placeholder=""
-                  value={editingItem.firstname || ''}
+                  value={editingItem.firstname || ""}
                   onChange={handleChange}
                 />
                 <label htmlFor="firstname">Firstname</label>
@@ -99,7 +102,7 @@ export default function CustomerAdd({ toggle }) {
                   id="lastname"
                   required
                   placeholder=""
-                  value={editingItem.lastname || ''}
+                  value={editingItem.lastname || ""}
                   onChange={handleChange}
                 />
                 <label htmlFor="lastname">Lastname</label>
@@ -112,7 +115,7 @@ export default function CustomerAdd({ toggle }) {
                   id="email"
                   required
                   placeholder=""
-                  value={editingItem.email || ''}
+                  value={editingItem.email || ""}
                   onChange={handleChange}
                 />
                 <label htmlFor="email">Email</label>
@@ -125,7 +128,7 @@ export default function CustomerAdd({ toggle }) {
                   id="mobile"
                   required
                   placeholder=""
-                  value={editingItem.mobile || ''}
+                  value={editingItem.mobile || ""}
                   onChange={handleChange}
                 />
                 <label htmlFor="mobile">mobile</label>
@@ -136,7 +139,7 @@ export default function CustomerAdd({ toggle }) {
                 <select
                   name=""
                   id="membership"
-                  onChange={(e)=>setSelect(e.target.value)}
+                  onChange={(e) => setSelect(e.target.value)}
                   value={select}
                 >
                   <option className="option" value="true">

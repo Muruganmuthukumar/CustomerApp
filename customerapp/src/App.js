@@ -29,7 +29,7 @@ function App() {
               <Route path="order" element={<Order toggle={toggle} />} />
               <Route path="product" element={<Product toggle={toggle} />} />
               <Route path="customer" element={<Customer setToggle={setToggle} toggle={toggle} />} />
-              <Route path="/:id/customer-edit" element={<CustomerEdit toggle={toggle} />} />
+              <Route path="customer-edit" element={<CustomerEdit toggle={toggle} />} />
               <Route path='new-customer' element={<CustomerAdd toggle={toggle} />} />
               <Route path='new-product' element={<ProductAdd toggle={toggle} />} />
               <Route path='product-edit' element={<ProductEdit toggle={toggle} />} />

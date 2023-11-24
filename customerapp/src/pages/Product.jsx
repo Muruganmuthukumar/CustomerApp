@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import List from "../components/List";
 import { useDispatch, useSelector } from "react-redux";
-import { list, listColumnName, listType } from "../redux/List/listSlice";
+import { list, listType, setError } from "../redux/List/listSlice";
 import {
-  updated_Product,
   delete_Product,
   add_Product,
 } from "../redux/product/productSlice";
@@ -12,23 +11,16 @@ import {
   handleSearch,
   handleSearchType,
 } from "../utils/SearchFilter";
+import axios from "axios";
 
 export default function Product({ toggle }) {
-  const { updatedProduct, deletingId, newProduct } = useSelector(
+  const { deletingId, newProduct } = useSelector(
     (state) => state.product
   );
-  const { listData } = useSelector((state) => state.product);
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
-  const columnName = {
-    title: "Product Name",
-    rating: "Rating",
-    brand: "Brand",
-    stock: "Stock",
-    price: "Price",
-  };
   const [searchType, setSearchType] = useState();
-  const [select, setSelect] = useState(["All", "Productname", "Brand"]);
+  const [select, setSelect] = useState(["All", "Productname", "Brand","Category"]);
   const [filteredData, setFilteredData] = useState([]);
   const [newData, setNewData] = useState([]);
   const [searchItem, setSearchItem] = useState("");
@@ -37,97 +29,47 @@ export default function Product({ toggle }) {
     fetchData();
   }, []);
   async function fetchData() {
-    try {
-      const response = await fetch(
-        "https://customer-vwy2.onrender.com/products"
-      );
-      const data = await response.json();
-      setData(data);
-      setNewData(data);
-    } catch (err) {
-      console.log("Error Fetching Products Data", err);
-    }
+    axios.get("http://localhost:5000/api/products").then((res) => {
+      setData(res.data)
+      setNewData(res.data)
+    }).catch((err) => {
+      console.log(err)
+    })
   }
   dispatch(list(data));
-  dispatch(listColumnName(columnName));
   dispatch(listType("product"));
 
   const addProduct = async (newProduct) => {
     dispatch(add_Product(null));
-    try {
-      const response = await fetch(
-        "https://customer-vwy2.onrender.com/products",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(newProduct),
-        }
-      );
-      const newData = await response.json();
-      setData(newData);
-      fetchData();
-    } catch (err) {
-      console.log("Error Adding Data", err);
-    }
+    await axios.post("http://localhost:5000/api/products", newProduct)
+      .then((res) => {
+      // console.log(res.data)
+        setData(res.data);
+        fetchData();
+    }).catch((err) => {
+      console.log(err.response.data)
+    })
   };
 
   if (newProduct != null) {
     addProduct(newProduct);
-    // window.location.reload(false);
-    console.log(newProduct);
+    // console.log(newProduct);
   }
 
-  const updateProduct = async (productData) => {
-    try {
-      const response = await fetch(
-        `https://customer-vwy2.onrender.com/products/${productData.id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(productData),
-        }
-      );
-      const editedProduct = await response.json();
-      const result = listData.map((item) =>
-        item.id === editedProduct.id ? editedProduct : item
-      );
-      setData(result);
-      // console.log(editedProduct,"data");
-      // console.log(result);
-      dispatch(updated_Product(null));
-      fetchData();
-    } catch (error) {
-      console.error("Error Updating Data", error);
-    }
-  };
 
-  if (updatedProduct !== null) {
-    updateProduct(updatedProduct);
-    // console.log(updatedProduct);
-  }
-
-  const removeProduct = (productId) => {
-    fetch(`https://customer-vwy2.onrender.com/products/${productId}`, {
-      method: "DELETE",
-    })
+  const removeProduct =async (id) => {
+     await axios
+      .delete(`http://localhost:5000/api/products/${id}`)
       .then(() => {
-        const removedProduct = listData.filter((data) => data.id !== productId); //id only
-        // console.log(removedProduct);
-        setData(removedProduct);
-        fetchData();
-        dispatch(delete_Product(null));
+        const updatedData = data.filter((product) => product._id !== id);
+        setData(updatedData);
+        // console.log(updatedData);
       })
-      .catch((error) => console.error("Error Deleting Data", error));
+      .catch((err) => {
+        console.log(err.response.data);
+      });
   };
 
-  if (deletingId !== null) {
-    // console.log(deletingId);
-    removeProduct(deletingId);
-  }
 
   useEffect(() => {
     handleFilterProduct(
@@ -157,6 +99,8 @@ export default function Product({ toggle }) {
             setFilterData={setData}
             newData={newData}
             setSearchItem={setSearchItem}
+            removeProduct={removeProduct}
+            searchItem={searchItem}
           />
         </div>
       </div>

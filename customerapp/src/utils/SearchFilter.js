@@ -93,6 +93,12 @@ export  const handleFilterOrder = (searchType, newData, searchItem, setFilteredD
       );
       setFilteredData(filteredItems);
       // console.log(filteredItems);
+    } else if (searchType === "Category") {
+      const filteredItems = newData.filter((item) =>
+        item.category.toLowerCase().includes(searchItem.toLowerCase())
+      );
+      setFilteredData(filteredItems);
+      // console.log(filteredItems);
     } else {
       const filteredItems = newData.filter(
         (item) =>

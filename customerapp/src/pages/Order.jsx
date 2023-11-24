@@ -121,6 +121,7 @@ export default function Order({ toggle }) {
         setFilterData={setData}
         newData={newData}
         setSearchItem={setSearchItem}
+        searchItem={searchItem}
       />
     </div>
   );

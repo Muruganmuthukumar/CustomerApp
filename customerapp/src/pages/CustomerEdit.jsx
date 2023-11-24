@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import "../Styles/CustomerEdit.css";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -12,10 +12,10 @@ import axios from "axios";
 
 function CustomerEdit({ toggle }) {
   const fileRef = useRef(null);
+  const { editingCustomer } = useSelector((state) => state.customer);
   const [editingItem, setEditingItem] = useState([]);
   const [image, setImage] = useState(null);
   const dispatch = useDispatch();
-  const { id } = useParams();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -25,15 +25,14 @@ function CustomerEdit({ toggle }) {
       [id]: value,
     });
   };
-  // console.log(id);
-  console.log(editingItem);
+  // console.log(editingItem);
   // console.log(select);
   useEffect(() => {
     fetchByUserId();
   }, []);
-  const fetchByUserId = async (e) => {
+  const fetchByUserId = async () => {
     await axios
-      .get(`http://localhost:5000/api/users/${id}`)
+      .get(`http://localhost:5000/api/users/${editingCustomer._id}`)
       .then((res) => {
         setEditingItem(res.data);
       })
@@ -45,7 +44,10 @@ function CustomerEdit({ toggle }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await axios
-      .put(`http://localhost:5000/api/users/${id}`, editingItem)
+      .put(
+        `http://localhost:5000/api/users/${editingCustomer._id}`,
+        editingItem
+      )
       .then((res) => {
         console.log(res.data);
         navigate("/customer");
@@ -88,7 +90,7 @@ function CustomerEdit({ toggle }) {
               <img
                 onClick={() => fileRef.current.click()}
                 style={{ cursor: "pointer" }}
-                src={editingItem.photoURL}
+                src={editingItem.photoURL} 
                 alt="avatar"
               />
             )}

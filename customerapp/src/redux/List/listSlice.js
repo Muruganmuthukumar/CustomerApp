@@ -3,8 +3,8 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   list:null,
   listColumName:null,
-  listType:'',
-  error:'',
+  listType:"",
+  error:"",
 }
 
 export const listSlice = createSlice({
@@ -26,7 +26,6 @@ export const listSlice = createSlice({
   },
 })
 
-// Action creators are generated for each case reducer function
 export const { list, listColumnName, listType, setError } = listSlice.actions;
 
 export default listSlice.reducer;
