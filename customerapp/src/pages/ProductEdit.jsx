@@ -7,6 +7,7 @@ import { edit_Product } from "../redux/product/productSlice";
 import { useRef } from "react";
 import { FaChevronLeft, FaRupeeSign, FaSave } from "react-icons/fa";
 import axios from "axios";
+import { toast } from 'react-toastify';
 
 function ProductEdit({ toggle }) {
   const fileRef = useRef(null);
@@ -30,33 +31,54 @@ function ProductEdit({ toggle }) {
   useEffect(() => {
     fetchByProductId();
   }, []);
-  const fetchByProductId = async () => {
-    await axios
-      .get(`http://localhost:5000/api/products/${editingProduct._id}`)
-      .then((res) => {
-        setEditingItem(res.data);
-        // console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-      });
-  };
+const fetchByProductId = async () => {
+  try {
+    const response = await axios.get(
+      `http://localhost:5000/api/products/${editingProduct._id}`
+    );
+    setEditingItem(response.data);
+    // console.log(response.data);
+  } catch (error) {
+    console.error("Error fetching product by ID:", error.message);
+    if (error.response) {
+      console.error(error.response.data);
+      toast.error(error.response.data.error || "Error fetching product by ID");
+    } else if (error.request) {
+      console.error(error.request);
+      toast.error("Error fetching product by ID");
+    } else {
+      console.error("Error", error.message);
+      toast.error("Error fetching product by ID");
+    }
+  }
+};
 
-  const handleSubmit = async(e) => {
-    e.preventDefault();
-    await axios
-      .put(
-        `http://localhost:5000/api/products/${editingProduct._id}`,
-        editingItem
-      )
-      .then((res) => {
-        console.log(res.data);
-        navigate("/product");
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-      });
-  };
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    const response = await axios.put(
+      `http://localhost:5000/api/products/${editingProduct._id}`,
+      editingItem
+    );
+
+    // console.log(response.data);
+
+    if (response.data.error) {
+      toast.error(response.data.error);
+    } else {
+      toast.success("Product updated successfully");
+      navigate("/product");
+    }
+  } catch (err) {
+    // console.log(err);
+    if (err.response && err.response.data && err.response.data.error) {
+      toast.error(err.response.data.error);
+    } else {
+      toast.error("Error updating product");
+    }
+  }
+};
 
   const handleClose = () => {
     navigate("/product");

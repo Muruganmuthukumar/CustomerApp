@@ -9,6 +9,7 @@ import {
   handleSearchType,
 } from "../utils/SearchFilter";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function Customer({ toggle }) {
   const { newCustomer } = useSelector((state) => state.customer); //
@@ -32,18 +33,26 @@ export default function Customer({ toggle }) {
     fetchData();
   }, []);
 
-  async function fetchData() {
-    await axios
-      .get("http://localhost:5000/api/users")
-      .then((res) => {
-        setData(res.data);
-        setNewData(res.data);
-        // console.log(res);
-      })
-      .catch((err) => {
-        console.log(err.respose.data);
-      });
-  }
+ const fetchData = async () => {
+   try {
+     const response = await axios.get("http://localhost:5000/api/users");
+     setData(response.data);
+     setNewData(response.data);
+     // console.log(response);
+   } catch (error) {
+     console.error(error.message);
+     if (error.response) {
+       console.error(error.response.data);
+       toast.error(error.response.data.error || "Error fetching data");
+     } else if (error.request) {
+       console.error(error.request);
+       toast.error("Error fetching data");
+     } else {
+       console.error("Error", error.message);
+       toast.error("Error fetching data");
+     }
+   }
+ };
   dispatch(list(data));
   dispatch(listType("customer"));
 
@@ -51,18 +60,29 @@ export default function Customer({ toggle }) {
 
   const addCustomer = async (newCustomer) => {
     dispatch(add_customer(null));
-    // console.log(newCustomer);
-    await axios
-      .post("http://localhost:5000/api/users", newCustomer)
-      .then((res) => {
-        setData(res.data);
-        console.log(res.data);
-        // console.log(res);
-        fetchData();
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-      });
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/users",
+        newCustomer
+      );
+      toast.success(response.data);
+      // setData(response.data);
+      // console.log(response.data);
+      fetchData();
+    } catch (error) {
+      console.error(error);
+
+      if (error.response) {
+        console.error(error.response.data);
+        console.error(error.response.status);
+        toast.error(error.response.data.error);
+      } else if (error.request) {
+        console.error(error.request);
+      } else {
+        console.error("Error", error.message);
+      }
+    }
   };
 
   if (newCustomer !== null) {
@@ -70,16 +90,34 @@ export default function Customer({ toggle }) {
   }
 
   const removeCustomer = async (id) => {
-    await axios
-      .delete(`http://localhost:5000/api/users/${id}`)
-      .then(() => {
-        const updatedData = data.filter((user) => user._id !== id);
-        setData(updatedData);
-        // console.log(updatedData);
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-      });
+    try {
+      const response = await axios.delete(
+        `http://localhost:5000/api/users/${id}`
+      );
+      const updatedData = data.filter((user) => user._id !== id);
+      setData(updatedData);
+
+      if (typeof response.data === "string") {
+        toast.info(response.data, {
+          pauseOnHover: false,
+        });
+      } else if (response.data.message) {
+        toast.info(response.data.message, {
+          pauseOnHover: false,
+        });
+      } else {
+        console.warn("Unexpected response format:", response.data);
+      }
+    } catch (error) {
+      console.log(error);
+      if (error.response) {
+        toast.error(error.response.data.error);
+      } else if (error.request) {
+        console.error(error.request);
+      } else {
+        console.error("Error", error.message);
+      }
+    }
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps

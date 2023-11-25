@@ -63,7 +63,7 @@ function ListTop({
           setSearchItem={setSearchItem}
         />
         <div className="btn-container">
-          <button disabled={listType === "order"} onClick={handleCreate}>
+          <button onClick={handleCreate}>
             {listType === "customer" && <IoPersonAddSharp className="icon" />}
             {listType === "product" && (
               <AiOutlineAppstoreAdd className="icon" />

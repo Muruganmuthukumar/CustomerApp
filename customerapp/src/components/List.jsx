@@ -29,6 +29,7 @@ export default function List({
   setSearchItem,
   removeCustomer,
   removeProduct,
+  removeOrder,
   searchItem,
 }) {
   const { list, listColumName, listType } = useSelector((state) => state.list);
@@ -71,9 +72,7 @@ export default function List({
         navigate("/product-edit");
         break;
       case "order":
-        console.log("order page", data);
         dispatch(edit_Order(data));
-        dispatch(orderListData(newList));
         navigate("/order-edit");
         break;
       default:
@@ -91,8 +90,8 @@ export default function List({
         setShow(!show);
         break;
       case "order":
-        dispatch(delete_Order(data.id));
-        setShow(!show);
+        removeOrder(id);
+      setShow(!show);
         break;
       default:
         break;
@@ -106,6 +105,9 @@ export default function List({
         break;
       case "product":
         navigate("/new-product");
+        break;
+      case "order":
+        navigate("/new-order");
         break;
       default:
         break;

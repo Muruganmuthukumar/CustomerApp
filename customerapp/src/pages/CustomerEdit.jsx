@@ -3,12 +3,11 @@ import "../Styles/CustomerEdit.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  edit_Customer,
-} from "../redux/customer/customerSlice";
+import { edit_Customer } from "../redux/customer/customerSlice";
 import { useRef } from "react";
 import { FaChevronLeft, FaSave } from "react-icons/fa";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 function CustomerEdit({ toggle }) {
   const fileRef = useRef(null);
@@ -25,36 +24,55 @@ function CustomerEdit({ toggle }) {
       [id]: value,
     });
   };
-  // console.log(editingItem);
-  // console.log(select);
+
   useEffect(() => {
     fetchByUserId();
   }, []);
-  const fetchByUserId = async () => {
-    await axios
-      .get(`http://localhost:5000/api/users/${editingCustomer._id}`)
-      .then((res) => {
-        setEditingItem(res.data);
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-      });
-  };
+const fetchByUserId = async () => {
+  try {
+    const response = await axios.get(
+      `http://localhost:5000/api/users/${editingCustomer._id}`
+    );
+    setEditingItem(response.data);
+  } catch (error) {
+    console.error(error.response.data);
+    if (error.response) {
+      toast.error(error.response.data.error || "Error fetching user data");
+    } else if (error.request) {
+      console.error(error.request);
+      toast.error("Error fetching user data");
+    } else {
+      console.error("Error", error.message);
+      toast.error("Error fetching user data");
+    }
+  }
+};
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios
-      .put(
+    try {
+      const response = await axios.put(
         `http://localhost:5000/api/users/${editingCustomer._id}`,
         editingItem
-      )
-      .then((res) => {
-        console.log(res.data);
+      );
+
+      // console.log(response.data);
+
+      if (response.data.error) {
+        toast.error(response.data.error);
+      } else {
+        toast.success("User updated successfully");
         navigate("/customer");
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-      });
+      }
+    } catch (err) {
+      // console.log(err);
+      if (err.response && err.response.data && err.response.data.error) {
+        toast.error(err.response.data.error);
+      } else {
+        toast.error("Error updating user");
+      }
+    }
   };
 
   const handleClose = () => {
@@ -90,7 +108,7 @@ function CustomerEdit({ toggle }) {
               <img
                 onClick={() => fileRef.current.click()}
                 style={{ cursor: "pointer" }}
-                src={editingItem.photoURL} 
+                src={editingItem.photoURL}
                 alt="avatar"
               />
             )}
@@ -152,7 +170,9 @@ function CustomerEdit({ toggle }) {
               <select
                 name=""
                 id="membership"
-                onChange={(e) => setEditingItem({...editingItem, membership:e.target.value})}
+                onChange={(e) =>
+                  setEditingItem({ ...editingItem, membership: e.target.value })
+                }
                 value={editingItem.membership}
               >
                 <option className="option" value="true">

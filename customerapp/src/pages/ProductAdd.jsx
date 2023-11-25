@@ -115,7 +115,7 @@ function ProductAdd({ toggle }) {
                   onChange={(e) => setSelect(e.target.value)}
                   value={select}
                 >
-                  <option defaultChecked={true}>- Category -</option>
+                  <option value="null">- Category -</option>
                   <option value="smartphones">Smartphones</option>
                   <option value="laptops">Laptops</option>
                   <option value="fragrances">Fragrances</option>

@@ -6,7 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { add_customer } from "../redux/customer/customerSlice";
 import { FaChevronLeft, FaSave } from "react-icons/fa";
 import { useEffect } from "react";
-import { useRef } from 'react';
+import { useRef } from "react";
+import { toast } from "react-toastify";
 
 export default function CustomerAdd({ toggle }) {
   const fileRef = useRef(null);
@@ -16,7 +17,7 @@ export default function CustomerAdd({ toggle }) {
   const [image, setImage] = useState(null);
   const dispatch = useDispatch();
   useEffect(() => {
-    setEditingItem({...newCustomer});
+    setEditingItem({ ...newCustomer });
   }, [newCustomer]);
 
   const navigate = useNavigate();
@@ -45,6 +46,7 @@ export default function CustomerAdd({ toggle }) {
 
   const handleImage = (e) => {
     setImage(e.target.files[0]);
+    toast.info("Image Uploading Success");
   };
   // console.log(image);
   return (

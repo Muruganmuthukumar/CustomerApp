@@ -19,6 +19,7 @@ class SplineArea extends Component {
       options: {
         chart: {
           height: 350,
+          width:400,
           type: "area",
         },
         dataLabels: {
@@ -56,7 +57,6 @@ class SplineArea extends Component {
           series={this.state.series}
           type="area"
           height={250}
-          width={450}
         />
       </div>
     );

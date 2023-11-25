@@ -82,7 +82,7 @@
     }
 
     .dash-top-items {
-        width: 100%;
+        width: 50%;
         margin-bottom: 10px;
     }
 
@@ -95,15 +95,29 @@
     .dash-top {
         flex-direction: column;
         align-items: center;
+        background-color: aqua;
     }
 
     .dash-top-items {
-        width: 100%;
+        width: 80%;
         margin-bottom: 10px;
     }
 
     .dash-content {
+        display: flex;
+        flex-wrap: wrap;
         gap: 10px;
+        width: 90%;
+        margin: 0 auto;
+        margin-top: 20px;
+    }
+
+    .chart1,
+    .chart2,
+    .chart3,
+    .chart4 {
+        margin: 10px 0;
+        width: 100%;
     }
 }
 

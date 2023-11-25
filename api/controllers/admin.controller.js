@@ -3,7 +3,7 @@ const adminLogin = (req, res) => {
     const { username, password } = req.body;
     try {
         if (username === "admin" && password === "admin") {
-            res.status(200).json("Admin Logged In Successfully");
+            res.status(200).json("Admin LogIn Successfully");
         }
         else{ 
             throw new Error("Wrong credentials");

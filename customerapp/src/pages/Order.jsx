@@ -3,17 +3,17 @@ import List from "../components/List";
 import { useDispatch, useSelector } from "react-redux";
 import { list, listColumnName, listType } from "../redux/List/listSlice";
 import { useEffect } from "react";
-import { delete_Order, updated_Order } from "../redux/order/orderSlice";
+import { add_Order } from "../redux/order/orderSlice";
 import {
   handleFilterOrder,
   handleSearch,
   handleSearchType,
 } from "../utils/SearchFilter";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function Order({ toggle }) {
-  const { updatedOrder, deletingId, listData } = useSelector(
-    (state) => state.order
-  );
+  const { newOrder } = useSelector((state) => state.order);
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const columnName = {
@@ -34,66 +34,75 @@ export default function Order({ toggle }) {
     fetchData();
   }, []);
   async function fetchData() {
-    try {
-      const response = await fetch("https://customer-vwy2.onrender.com/orders");
-      const data = await response.json();
-      setData(data);
-      setNewData(data);
-    } catch (err) {
-      console.error("Error Fetching Orders Data", err);
-    }
+    await axios
+      .get("http://localhost:5000/api/orders")
+      .then((res) => {
+        setData(res.data);
+        setNewData(res.data);
+        // console.log(res.data)
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
   dispatch(list(data));
   dispatch(listColumnName(columnName));
   dispatch(listType("order"));
-  
-  const updateOrder = async (orderData) => {
-    try {
-      const response = await fetch(
-        `https://customer-vwy2.onrender.com/orders/${orderData.id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(orderData),
-        }
-      );
-      const editedOrder = await response.json();
-      const result = listData.map((item) =>
-      item.id === editedOrder.id ? editedOrder : item
-      );
-      setData(result);
-      dispatch(updated_Order(null));
-      fetchData();
-    } catch (error) {
-      console.error("Error Updating Data", error);
-    }
-  };
-  useEffect(() => {
-    if (updatedOrder != null) {
-      updateOrder(updatedOrder);
-    }
-  }, [updatedOrder]);
 
-  const removeOrder = (orderId) => {
-    fetch(`https://customer-vwy2.onrender.com/orders/${orderId}`, {
-      method: "DELETE",
-    })
-    .then(() => {
-      const removedOrder = data.filter((data) => data.id !== orderId); //id only
-      // console.log(removedOrder);
-      setData(removedOrder);
-      fetchData();
-        dispatch(delete_Order(null));
-      })
-      .catch((error) => console.error("Error Deleting Data", error));
-  };
-
-  if (deletingId != null) {
-    console.log(deletingId);
-    removeOrder(deletingId);
+  const addOrder = async (newOrder) => {
+  dispatch(add_Order(null))
+  try {
+    const response = await axios.post(
+      "http://localhost:5000/api/orders",
+      newOrder
+    );
+    // console.log(response.data);
+    toast.success(response.data, {
+      pauseOnHover: false,
+    });
+  } catch (error) {
+    console.error(error.response.data);
+    toast.error(error.response.data.error || "Error creating order");
   }
+};
+
+
+  if (newOrder != null) {
+    addOrder(newOrder);
+    // console.log(newProduct);
+  }
+
+  const removeOrder = async (id) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:5000/api/orders/${id}`
+      );
+      const updatedData = data.filter((order) => order._id !== id);
+      setData(updatedData);
+      if (response.data && response.data.message) {
+        toast.info(response.data.message, {
+          pauseOnHover: false,
+        });
+        // console.log(response.data.message);
+      } else if (response.data && typeof response.data === "string") {
+        toast.info(response.data, {
+          pauseOnHover: false,
+        });
+        // console.log(response.data);
+      } else {
+        console.warn("Unexpected response format:", response.data);
+      }
+    } catch (error) {
+      console.log(error.response.data);
+      if (error.response) {
+        toast.error(error.response.data.error);
+      } else if (error.request) {
+        console.error(error.request);
+      } else {
+        console.error("Error", error.message);
+      }
+    }
+  };
 
   useEffect(() => {
     handleFilterOrder(
@@ -121,6 +130,7 @@ export default function Order({ toggle }) {
         setFilterData={setData}
         newData={newData}
         setSearchItem={setSearchItem}
+        removeOrder={removeOrder}
         searchItem={searchItem}
       />
     </div>

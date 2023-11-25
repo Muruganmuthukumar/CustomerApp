@@ -4,7 +4,8 @@ const initialState = {
   list:null,
   listColumName:null,
   listType:"",
-  error:"",
+  error: "",
+  success:"",
 }
 
 export const listSlice = createSlice({
@@ -22,10 +23,13 @@ export const listSlice = createSlice({
     },
     setError:(state,action)=>{
       state.error=action.payload;
+    },
+    setSuccess: (state, action) => {
+      state.success = action.payload;
     }
   },
 })
 
-export const { list, listColumnName, listType, setError } = listSlice.actions;
+export const { list, listColumnName, listType, setError, setSuccess } = listSlice.actions;
 
 export default listSlice.reducer;

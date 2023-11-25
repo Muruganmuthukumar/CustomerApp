@@ -14,6 +14,7 @@ import CustomerAdd from './pages/CustomerAdd';
 import ProductAdd from './pages/ProductAdd';
 import SignIn from './pages/SignIn';
 import PrivateRoutes from './components/PrivateRoutes';
+import OrderAdd from './pages/OrderAdd';
 
 function App() {
   const [toggle, setToggle] = useState(true)
@@ -34,6 +35,7 @@ function App() {
               <Route path='new-product' element={<ProductAdd toggle={toggle} />} />
               <Route path='product-edit' element={<ProductEdit toggle={toggle} />} />
               <Route path='order-edit' element={<OrderEdit toggle={toggle} />} />
+              <Route path='new-order' element={<OrderAdd toggle={toggle} />} />
             </Route>
           </Route>
         </Routes>

@@ -1,12 +1,23 @@
 import "../Styles/SidePanel.css";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { FaChartLine, FaInfoCircle, FaStoreAlt, FaUser } from "react-icons/fa";
-import { FaCartShopping, FaChevronLeft } from "react-icons/fa6";
+import {
+  FaChartLine,
+  FaChevronLeft,
+  FaInfoCircle,
+  FaStoreAlt,
+  FaUser,
+} from "react-icons/fa";
+import { FaCartShopping } from "react-icons/fa6";
+import { CgLogOut } from "react-icons/cg";
 import { isAuthenticated } from "../redux/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useEffect } from "react";
+import { setSuccess } from "../redux/List/listSlice";
 
 export default function SidePanel({ toggle, setToggle }) {
-  const { authentication } = useSelector((state) => state.auth);
+  const { success } = useSelector((state) => state.list);
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -15,34 +26,38 @@ export default function SidePanel({ toggle, setToggle }) {
   };
 
   const handleLogout = () => {
-    dispatch(isAuthenticated(false))
-    navigate('/signin')
-  }
+    toast.info("Admin Logout Successfully", {
+      position: toast.POSITION.BOTTOM_RIGHT,
+      pauseOnHover: false,
+    });
+    // dispatch(setSuccess(""))
+    dispatch(isAuthenticated(false));
+    navigate("/signin");
+  };
+
+  useEffect(() => {
+    loggedIn();
+  }, []);
+
+  const loggedIn = () => {
+    if (success) {
+      toast.success(success, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        pauseOnHover: false,
+      });
+      dispatch(setSuccess(""));
+    }
+  };
 
   return (
     <div className="container">
       <div className="side-panel" style={{ width: toggle ? "7vw" : "18vw" }}>
         <div>
-          {toggle ? (
-            <>
-              <div className="user">
-                <div className="img">
-                  <img src="images/profile.webp" alt="profile" />
-                </div>
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="user">
-                <div className="img">
-                  <img src="images/profile.webp" alt="profile" />
-                </div>
-                <span style={{ display: toggle ? "none" : "block" }}>
-                  Admin
-                </span>
-              </div>
-            </>
-          )}
+          <div className="user" style={{ width: toggle ? "7vw" : "18vw" }}>
+            <div className={toggle?"img":"img1"}>
+              <img src="images/logo.png" alt="profile" />
+            </div>
+          </div>
         </div>
         <div
           className="link-container"
@@ -140,13 +155,13 @@ export default function SidePanel({ toggle, setToggle }) {
               >
                 {toggle ? (
                   <div>
-                    <FaChevronLeft className="icon" />
+                    <CgLogOut className="icon" style={{ fontSize: "25px" }} />
                     <span className="tooltip">Signout</span>
                   </div>
                 ) : (
                   <>
                     <div>
-                      <FaChevronLeft className="icon" />
+                      <CgLogOut className="icon" style={{ fontSize: "25px" }} />
                     </div>
                     <li>Signout</li>
                   </>
@@ -177,7 +192,6 @@ export default function SidePanel({ toggle, setToggle }) {
         </nav>
         <Outlet />
       </div>
-      {/* <div>{authentication && "Welcome to Home page"}</div> */}
     </div>
   );
 }

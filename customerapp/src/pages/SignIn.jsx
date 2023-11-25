@@ -4,26 +4,36 @@ import { useNavigate } from "react-router-dom";
 import { isAuthenticated } from "../redux/auth/authSlice";
 import { useDispatch } from "react-redux";
 import "../Styles/SignIn.css";
+import { setSuccess } from "../redux/List/listSlice";
+import { toast } from "react-toastify";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
     username: "admin",
     password: "admin",
   });
-  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const errorMsg = (err) => {
+    toast.error(err, {
+      position: toast.POSITION.TOP_CENTER,
+      toastId:"id"
+    });
+  }
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:5000/api/admin/login", formData)
-      .then((res) => {
+    .post("http://localhost:5000/api/admin/login", formData)
+    .then((res) => {
         console.log(res.data);
+        dispatch(setSuccess(res.data));
         dispatch(isAuthenticated(true));
         navigate("/");
       })
       .catch((err) => {
-        setErrorMessage(err.response.data);
+        errorMsg(err.response.data);
         // console.log(err.response.data);
       });
     // console.log(formData);
@@ -38,7 +48,7 @@ const SignIn = () => {
       <section className="signin-container">
         <form onSubmit={handleSubmit}>
           {/* <h2>Sign In</h2> */}
-        <h1>Admin Dashboard</h1>
+          <h1>Admin Dashboard</h1>
           <div className="input-container">
             <input
               id="username"
@@ -63,7 +73,6 @@ const SignIn = () => {
             />
             <label htmlFor="password">Password</label>
           </div>
-          {errorMessage && <p>{errorMessage}</p>}
           <button>Sign In</button>
         </form>
       </section>
