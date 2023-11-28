@@ -8,19 +8,19 @@ class SplineArea extends Component {
     this.state = {
       series: [
         {
-          name: "series1",
-          data: [31, 40, 28, 51, 42, 109, 100],
+          name: "Sales",
+          data: [120, 150, 100, 180, 130, 200, 170],
         },
         {
-          name: "series2",
-          data: [11, 32, 45, 32, 34, 52, 41],
+          name: "Orders",
+          data: [80, 120, 90, 150, 110, 160, 130],
         },
       ],
       options: {
         chart: {
           height: 350,
-          width:400,
           type: "area",
+          background: "#fff", // Light background color
         },
         dataLabels: {
           enabled: false,
@@ -31,20 +31,45 @@ class SplineArea extends Component {
         xaxis: {
           type: "datetime",
           categories: [
-            "2018-09-19T00:00:00.000Z",
-            "2018-09-19T01:30:00.000Z",
-            "2018-09-19T02:30:00.000Z",
-            "2018-09-19T03:30:00.000Z",
-            "2018-09-19T04:30:00.000Z",
-            "2018-09-19T05:30:00.000Z",
-            "2018-09-19T06:30:00.000Z",
+            "2022-01-01T00:00:00.000Z",
+            "2022-02-01T00:00:00.000Z",
+            "2022-03-01T00:00:00.000Z",
+            "2022-04-01T00:00:00.000Z",
+            "2022-05-01T00:00:00.000Z",
+            "2022-06-01T00:00:00.000Z",
+            "2022-07-01T00:00:00.000Z",
           ],
+          labels: {
+            style: {
+              colors: "#333", // Dark text color
+            },
+          },
         },
         tooltip: {
           x: {
             format: "dd/MM/yy HH:mm",
           },
         },
+        responsive: [
+          {
+            breakpoint: 600,
+            options: {
+              chart: {
+                height: 300,
+                width: 300, // Adjust the width for smaller screens
+              },
+            },
+          },
+          {
+            breakpoint: 480,
+            options: {
+              chart: {
+                height: 250,
+                width: 250, // Adjust the width for even smaller screens
+              },
+            },
+          },
+        ],
       },
     };
   }
@@ -56,7 +81,6 @@ class SplineArea extends Component {
           options={this.state.options}
           series={this.state.series}
           type="area"
-          height={250}
         />
       </div>
     );

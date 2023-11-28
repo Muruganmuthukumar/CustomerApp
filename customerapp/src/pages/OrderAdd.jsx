@@ -1,11 +1,10 @@
-import React, { useRef } from "react";
+import React from "react";
 import "../Styles/CustomerEdit.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { FaChevronLeft, FaRupeeSign, FaSave } from "react-icons/fa";
 import { useEffect } from "react";
-import { add_Order } from "../redux/order/orderSlice";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -16,11 +15,10 @@ const OrderAdd = ({ toggle }) => {
   //   const [productSelect, setProductSelect] = useState("null");
   const [userData, setUserData] = useState([]);
   const [productData, setProductData] = useState([]);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     setEditingItem({ ...newOrder });
-  }, [newOrder]);
+  }, [newOrder]); 
 
   const navigate = useNavigate();
   const handleChange = (e) => {
@@ -69,20 +67,24 @@ const OrderAdd = ({ toggle }) => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit =async (e) => {
     e.preventDefault();
     editingItem.thumbnail = thumbnail;
-    try {
-        // console.log(editingItem);
-      dispatch(add_Order(editingItem));
-      navigate("/order");
-    } catch (error) {
-      console.error(error);
-      toast.error(error.message || "Error adding order");
-    }
+        try {
+          const response = await axios.post(
+            `${process.env.REACT_APP_API_URL}/api/orders`,
+            editingItem
+          );
+          toast.success(response.data, {
+            pauseOnHover: false,
+          });
+          navigate("/order");
+        } catch (error) {
+          console.error(error.response.data);
+          toast.error(error.response.data.error || "Error creating order");
+        }
   };
-  // console.log(select)
-  
+ 
   const handleClose = () => {
     navigate("/order");
   };

@@ -2,10 +2,11 @@ import React, { useRef } from "react";
 import "../Styles/CustomerEdit.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { add_Product } from "../redux/product/productSlice";
+import { useSelector } from "react-redux";
 import { FaChevronLeft, FaSave } from "react-icons/fa";
 import { useEffect } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 function ProductAdd({ toggle }) {
   const fileRef = useRef(null);
@@ -13,7 +14,8 @@ function ProductAdd({ toggle }) {
   const [editingItem, setEditingItem] = useState([]);
   const [select, setSelect] = useState("null");
   const [image, setImage] = useState(null);
-  const dispatch = useDispatch();
+  const [base64, setBase64] = useState({});
+
   useEffect(() => {
     setEditingItem({ ...newProduct });
   }, [newProduct]);
@@ -26,25 +28,56 @@ function ProductAdd({ toggle }) {
       [id]: value,
     });
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     editingItem.category = select;
-    editingItem.thumbnail =
-    "https://nayemdevs.com/wp-content/uploads/2020/03/default-product-image.png";
-    dispatch(add_Product(editingItem));
-    navigate("/product");
-    // console.log(editingItem);
+    editingItem.thumbnail = image ? base64 : "https://nayemdevs.com/wp-content/uploads/2020/03/default-product-image.png";
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/products`,
+        editingItem
+      );
+      toast.success(response.data, {
+        pauseOnHover: false,
+      });
+      navigate("/product");
+    } catch (err) {
+      console.log(err.response.data.error);
+      toast.error(err.response.data.error, {
+        pauseOnHover:false
+      })
+    }
   };
-  // console.log(select)
-  // console.log(editingItem);
 
   const handleClose = () => {
     navigate("/product");
   };
 
-  const handleImage = (e) => {
-    setImage(e.target.files[0]);
-  };
+const handleImage = async (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    try {
+      const base64String = await convertImageToBase64(file);
+      setImage(file);
+      setBase64(base64String);
+      toast.info("Image Uploaded Successfully");
+    } catch (error) {
+      console.error(error);
+      toast.error("Error uploading image");
+    }
+  }
+};
+
+const convertImageToBase64 = (file) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      resolve(reader.result);
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+};
   return (
     <>
       <div
@@ -88,7 +121,7 @@ function ProductAdd({ toggle }) {
                   id="title"
                   required
                   placeholder=""
-                  value={editingItem.title || ''}
+                  value={editingItem.title || ""}
                   onChange={handleChange}
                 />
                 <label htmlFor="title">Product Name</label>
@@ -101,7 +134,7 @@ function ProductAdd({ toggle }) {
                   id="brand"
                   required
                   placeholder=""
-                  value={editingItem.brand || ''}
+                  value={editingItem.brand || ""}
                   onChange={handleChange}
                 />
                 <label htmlFor="brand">Brand</label>
@@ -132,7 +165,7 @@ function ProductAdd({ toggle }) {
                   id="stock"
                   required
                   placeholder=""
-                  value={editingItem.stock || ''}
+                  value={editingItem.stock || ""}
                   onChange={handleChange}
                 />
                 <label htmlFor="stock">Stock</label>
@@ -145,7 +178,7 @@ function ProductAdd({ toggle }) {
                   id="price"
                   required
                   placeholder=""
-                  value={editingItem.price || ''}
+                  value={editingItem.price || ""}
                   onChange={handleChange}
                 />
                 <label htmlFor="price">Price</label>

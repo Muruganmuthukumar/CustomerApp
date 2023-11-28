@@ -8,19 +8,19 @@ class MixedChart extends Component {
     this.state = {
       series: [
         {
-          name: "TEAM A",
+          name: "Electronics Sales",
           type: "column",
-          data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
+          data: [230, 110, 220, 270, 130, 220, 370, 210, 440, 220, 300],
         },
         {
-          name: "TEAM B",
+          name: "Clothing Sales",
           type: "area",
-          data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
+          data: [440, 550, 410, 670, 220, 430, 210, 410, 560, 270, 430],
         },
         {
-          name: "TEAM C",
+          name: "Footwear Sales",
           type: "line",
-          data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],
+          data: [300, 250, 360, 300, 450, 350, 640, 520, 590, 360, 390],
         },
       ],
       options: {
@@ -28,6 +28,7 @@ class MixedChart extends Component {
           height: 350,
           type: "line",
           stacked: false,
+          background: "#fff", // Light background color
         },
         stroke: {
           width: [0, 2, 5],
@@ -38,7 +39,6 @@ class MixedChart extends Component {
             columnWidth: "50%",
           },
         },
-
         fill: {
           opacity: [0.85, 0.25, 1],
           gradient: {
@@ -51,27 +51,35 @@ class MixedChart extends Component {
           },
         },
         labels: [
-          "01/01/2003",
-          "02/01/2003",
-          "03/01/2003",
-          "04/01/2003",
-          "05/01/2003",
-          "06/01/2003",
-          "07/01/2003",
-          "08/01/2003",
-          "09/01/2003",
-          "10/01/2003",
-          "11/01/2003",
+          "01/01/2022",
+          "02/01/2022",
+          "03/01/2022",
+          "04/01/2022",
+          "05/01/2022",
+          "06/01/2022",
+          "07/01/2022",
+          "08/01/2022",
+          "09/01/2022",
+          "10/01/2022",
+          "11/01/2022",
         ],
         markers: {
           size: 0,
         },
         xaxis: {
           type: "datetime",
+          labels: {
+            style: {
+              colors: "#333", // Dark text color
+            },
+          },
         },
         yaxis: {
           title: {
-            text: "Points",
+            text: "Sales",
+            style: {
+              color: "#333", // Dark text color
+            },
           },
           min: 0,
         },
@@ -81,12 +89,30 @@ class MixedChart extends Component {
           y: {
             formatter: function (y) {
               if (typeof y !== "undefined") {
-                return y.toFixed(0) + " points";
+                return y.toFixed(0) + " sales";
               }
               return y;
             },
           },
         },
+        responsive: [
+          {
+            breakpoint: 600,
+            options: {
+              chart: {
+                height: 300,
+              },
+            },
+          },
+          {
+            breakpoint: 480,
+            options: {
+              chart: {
+                height: 250,
+              },
+            },
+          },
+        ],
       },
     };
   }
@@ -98,7 +124,6 @@ class MixedChart extends Component {
           options={this.state.options}
           series={this.state.series}
           type="line"
-          height={250}
         />
       </div>
     );

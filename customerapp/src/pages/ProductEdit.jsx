@@ -14,6 +14,7 @@ function ProductEdit({ toggle }) {
   const { editingProduct } = useSelector((state) => state.product);
   const [editingItem, setEditingItem] = useState([]);
   const [image, setImage] = useState(null);
+  const [base64, setBase64] = useState({});
   const dispatch = useDispatch();
   useEffect(() => {
     setEditingItem((prev) => ({ ...prev, ...editingProduct }));
@@ -30,66 +31,89 @@ function ProductEdit({ toggle }) {
 
   useEffect(() => {
     fetchByProductId();
+    // eslint-disable-next-line
   }, []);
-const fetchByProductId = async () => {
-  try {
-    const response = await axios.get(
-      `http://localhost:5000/api/products/${editingProduct._id}`
-    );
-    setEditingItem(response.data);
-    // console.log(response.data);
-  } catch (error) {
-    console.error("Error fetching product by ID:", error.message);
-    if (error.response) {
-      console.error(error.response.data);
-      toast.error(error.response.data.error || "Error fetching product by ID");
-    } else if (error.request) {
-      console.error(error.request);
-      toast.error("Error fetching product by ID");
-    } else {
-      console.error("Error", error.message);
-      toast.error("Error fetching product by ID");
+  const fetchByProductId = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/products/${editingProduct._id}`
+      );
+      setEditingItem(response.data);
+      // console.log(response.data);
+    } catch (error) {
+      console.error("Error fetching product by ID:", error.message);
+      if (error.response) {
+        console.error(error.response.data);
+        toast.error(
+          error.response.data.error || "Error fetching product by Id"
+        );
+      } else if (error.request) {
+        console.error(error.request);
+        toast.error("Error fetching product by ID");
+      } else {
+        console.error("Error", error.message);
+        toast.error("Error fetching product by ID");
+      }
     }
-  }
-};
+  };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    editingItem.thumbnail = image ? base64 : editingItem.thumbnail;
+    try {
+      const response = await axios.put(
+        `http://localhost:5000/api/products/${editingProduct._id}`,
+        editingItem
+      );
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    const response = await axios.put(
-      `http://localhost:5000/api/products/${editingProduct._id}`,
-      editingItem
-    );
+      // console.log(response.data);
 
-    // console.log(response.data);
-
-    if (response.data.error) {
-      toast.error(response.data.error);
-    } else {
-      toast.success("Product updated successfully");
-      navigate("/product");
+      if (response.data.error) {
+        toast.error(response.data.error);
+      } else {
+        toast.success("Product updated successfully");
+        navigate("/product");
+      }
+    } catch (err) {
+      // console.log(err);
+      if (err.response && err.response.data && err.response.data.error) {
+        toast.error(err.response.data.error);
+      } else {
+        toast.error("Error updating product");
+      }
     }
-  } catch (err) {
-    // console.log(err);
-    if (err.response && err.response.data && err.response.data.error) {
-      toast.error(err.response.data.error);
-    } else {
-      toast.error("Error updating product");
-    }
-  }
-};
+  };
 
   const handleClose = () => {
     navigate("/product");
     dispatch(edit_Product(null));
   };
-  const handleImage = (e) => {
-    // console.log(e.target.files[0]);
-    setImage(e.target.files[0]);
-    console.log(editingItem.thumbnail);
+
+  const handleImage = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      try {
+        const base64String = await convertImageToBase64(file);
+        setImage(file);
+        setBase64(base64String);
+        toast.info("Image Uploaded Successfully");
+      } catch (error) {
+        console.error(error);
+        toast.error("Error uploading image");
+      }
+    }
   };
-  // console.log(image);
+
+  const convertImageToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        resolve(reader.result);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  };
   return (
     <>
       <div
@@ -154,7 +178,9 @@ const handleSubmit = async (e) => {
                 <select
                   name=""
                   id="category"
-                  onChange={(e) =>setEditingItem({...editingItem,category: e.target.value})}
+                  onChange={(e) =>
+                    setEditingItem({ ...editingItem, category: e.target.value })
+                  }
                   value={editingItem.category}
                 >
                   <option defaultChecked={true}>- Category -</option>

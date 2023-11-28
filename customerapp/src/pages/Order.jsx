@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import List from "../components/List";
-import { useDispatch, useSelector } from "react-redux";
-import { list, listColumnName, listType } from "../redux/List/listSlice";
+import { useDispatch } from "react-redux";
+import { list, listType } from "../redux/List/listSlice";
 import { useEffect } from "react";
-import { add_Order } from "../redux/order/orderSlice";
 import {
   handleFilterOrder,
   handleSearch,
@@ -13,18 +12,11 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 export default function Order({ toggle }) {
-  const { newOrder } = useSelector((state) => state.order);
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
-  const columnName = {
-    price: "Product Price",
-    productName: "Product Name",
-    customerName: "Customer Name",
-    quantity: "Quantity",
-    total: "Grand Total",
-  };
 
   const [searchType, setSearchType] = useState();
+  // eslint-disable-next-line
   const [select, setSelect] = useState(["All", "Productname", "Customername"]);
   const [filteredData, setFilteredData] = useState([]);
   const [newData, setNewData] = useState([]);
@@ -35,7 +27,7 @@ export default function Order({ toggle }) {
   }, []);
   async function fetchData() {
     await axios
-      .get("http://localhost:5000/api/orders")
+      .get(`${process.env.REACT_APP_API_URL}/api/orders`)
       .then((res) => {
         setData(res.data);
         setNewData(res.data);
@@ -45,37 +37,13 @@ export default function Order({ toggle }) {
         console.log(err);
       });
   }
-  dispatch(list(data));
-  dispatch(listColumnName(columnName));
-  dispatch(listType("order"));
-
-  const addOrder = async (newOrder) => {
-  dispatch(add_Order(null))
-  try {
-    const response = await axios.post(
-      "http://localhost:5000/api/orders",
-      newOrder
-    );
-    // console.log(response.data);
-    toast.success(response.data, {
-      pauseOnHover: false,
-    });
-  } catch (error) {
-    console.error(error.response.data);
-    toast.error(error.response.data.error || "Error creating order");
-  }
-};
-
-
-  if (newOrder != null) {
-    addOrder(newOrder);
-    // console.log(newProduct);
-  }
+    dispatch(list(data));
+    dispatch(listType("order"));
 
   const removeOrder = async (id) => {
     try {
       const response = await axios.delete(
-        `http://localhost:5000/api/orders/${id}`
+        `${process.env.REACT_APP_API_URL}/api/orders/${id}`
       );
       const updatedData = data.filter((order) => order._id !== id);
       setData(updatedData);
@@ -111,7 +79,7 @@ export default function Order({ toggle }) {
       searchItem,
       setFilteredData,
       filteredData
-    );
+    ); // eslint-disable-next-line
   }, [searchItem, searchType]);
 
   useEffect(() => {

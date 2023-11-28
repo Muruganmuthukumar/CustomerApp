@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  newCustomer:null,
   editingCustomer:null,
 }
 
@@ -12,13 +11,10 @@ export const customerSlice = createSlice({
     edit_Customer:(state, action)=>{
       state.editingCustomer=action.payload;
     },
-    add_customer:(state, action)=>{
-      state.newCustomer=action.payload
-    },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { add_customer, edit_Customer } = customerSlice.actions;
+export const { edit_Customer } = customerSlice.actions;
 
 export default customerSlice.reducer; 

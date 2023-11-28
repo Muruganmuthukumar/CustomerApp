@@ -7,7 +7,7 @@ import {
   FaStoreAlt,
   FaUser,
 } from "react-icons/fa";
-import { FaCartShopping } from "react-icons/fa6";
+import { FaCartShopping, FaGithub } from "react-icons/fa6";
 import { CgLogOut } from "react-icons/cg";
 import { isAuthenticated } from "../redux/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,7 +17,7 @@ import { useEffect } from "react";
 import { setSuccess } from "../redux/List/listSlice";
 
 export default function SidePanel({ toggle, setToggle }) {
-  const { success } = useSelector((state) => state.list);
+  const { success } = useSelector((state) => state.list); 
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -37,6 +37,7 @@ export default function SidePanel({ toggle, setToggle }) {
 
   useEffect(() => {
     loggedIn();
+    // eslint-disable-next-line
   }, []);
 
   const loggedIn = () => {
@@ -51,10 +52,10 @@ export default function SidePanel({ toggle, setToggle }) {
 
   return (
     <div className="container">
-      <div className="side-panel" style={{ width: toggle ? "7vw" : "18vw" }}>
+      <div className="side-panel" style={{ width: toggle ? "6vw" : "16vw" }}>
         <div>
-          <div className="user" style={{ width: toggle ? "7vw" : "18vw" }}>
-            <div className={toggle?"img":"img1"}>
+          <div className="user" style={{ width: toggle ? "6vw" : "16vw" }}>
+            <div className={toggle ? "img" : "img1"}>
               <img src="images/logo.png" alt="profile" />
             </div>
           </div>
@@ -189,6 +190,15 @@ export default function SidePanel({ toggle, setToggle }) {
               ? "DashBoard"
               : location.pathname.slice(1)}
           </h4>
+          <div>
+            <a
+              href="https://github.com/Muruganmuthukumar/CustomerApp"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <FaGithub className="icon" />
+            </a>
+          </div>
         </nav>
         <Outlet />
       </div>

@@ -190,18 +190,15 @@
 
 .user .img {
     height: 85px;
-    width: 100%;
     transition: all .5s;
 }
 .user .img1{
-    height: 170px;
-    width: 100%;
+    height: 150px;
     transition: all .5s;
 }
 
 .user img {
     height: 100%;
-    width: 100%;
     border-radius: 50%;
 }
 
@@ -245,6 +242,28 @@
     top: 0;
     z-index: 1;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    display: flex;
+}
+.pages nav div{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 40px;
+    align-self: center;
+}
+.pages nav a{
+    color: black;
+    padding:6px 7px 0px 7px;
+    border-radius: 50%;
+    transition: all .3s linear;
+}
+.pages nav a:hover{
+    background-color: #ccc;
+    box-shadow: 0 0 3px 3px #ccc;
+}
+.pages nav .icon{
+    height: 35px;
+    width: 35px;
 }
 
 .close {
@@ -254,7 +273,7 @@
 .close .tooltip {
     height: 40px;
     width: 0px;
-    left: 75px;
+    left: 60px;
     font-size: 14px;
     position: absolute;
     background-color: rgb(142, 81, 240);

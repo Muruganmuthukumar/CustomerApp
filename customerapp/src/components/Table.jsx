@@ -9,7 +9,6 @@ import {
 import { FaCircleXmark } from "react-icons/fa6";
 import { FaRupeeSign } from "react-icons/fa";
 import ReactPaginate from "react-paginate";
-// import { useSelector } from "react-redux";
 
 function Table({
   list,
@@ -25,17 +24,13 @@ function Table({
   searchItem,
 }) {
 
-  // const {error}=useSelector((state)=>state.list)
-
-
   return (
     <>
+      {searchItem && list.length === 0 && (
+        <h4 className="exception">no search result for "{searchItem}"</h4>
+        )}
       {list.length === 0 ? (
-        <>
-          <h4 className="exception">
-            no search result for "{searchItem}" 
-          </h4>
-        </>
+        <h4 className="exception">List is Empty!</h4>
       ) : (
         <>
           <div>
@@ -70,28 +65,27 @@ function Table({
                   <tr>
                     <th>Product</th>
                     <th>
-                      {listColumName.price}(
+                      Product Price(
                       <FaRupeeSign style={{ height: "12px", width: "12px" }} />)
                     </th>
-                    <th>{listColumName.productName}</th>
-                    <th>{listColumName.customerName}</th>
-                    <th>{listColumName.quantity}</th>
+                    <th>Product Name</th>
+                    <th>Customer Name</th>
+                    <th>Quantity</th>
                     <th>
-                      {listColumName.total}(
+                      Grand Total(
                       <FaRupeeSign style={{ height: "12px", width: "12px" }} />)
                     </th>
-                    <th>Order Status</th>
                     <th>Actions</th>
                   </tr>
                 )}
               </thead>
               <tbody>
                 {currentItems &&
-                    currentItems.map((data) => {
-                      return (
-                        <tr key={data._id}>
+                  currentItems.map((data) => {
+                    return (
+                      <tr key={data._id}>
                         {listType === "customer" && (
-                            <> 
+                          <>
                             <td>
                               <img src={data.photoURL} alt="avatar" />
                             </td>
@@ -137,7 +131,6 @@ function Table({
                               <span style={{ fontSize: "12px" }}>x</span>
                             </td>
                             <td>{data.price * data.quantity}</td>
-                            <td className="success">Success</td>
                           </>
                         )}
 

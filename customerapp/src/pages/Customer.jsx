@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import List from "../components/List";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { list, listType } from "../redux/List/listSlice";
-import { add_customer } from "../redux/customer/customerSlice";
 import {
   handleFilterCustomer,
   handleSearch,
@@ -12,10 +11,10 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 export default function Customer({ toggle }) {
-  const { newCustomer } = useSelector((state) => state.customer); //
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const [searchType, setSearchType] = useState("");
+  // eslint-disable-next-line
   const [select, setSelect] = useState([
     "All",
     "Firstname",
@@ -30,69 +29,40 @@ export default function Customer({ toggle }) {
   // console.log(editingCustomer);
 
   useEffect(() => {
-    fetchData();
+    fetchData(); // eslint-disable-next-line
   }, []);
 
- const fetchData = async () => {
-   try {
-     const response = await axios.get("http://localhost:5000/api/users");
-     setData(response.data);
-     setNewData(response.data);
-     // console.log(response);
-   } catch (error) {
-     console.error(error.message);
-     if (error.response) {
-       console.error(error.response.data);
-       toast.error(error.response.data.error || "Error fetching data");
-     } else if (error.request) {
-       console.error(error.request);
-       toast.error("Error fetching data");
-     } else {
-       console.error("Error", error.message);
-       toast.error("Error fetching data");
-     }
-   }
- };
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/api/users`
+      );
+      setData(response.data);
+      setNewData(response.data);
+      // console.log(response);
+    } catch (error) {
+      console.error(error.message);
+      if (error.response) {
+        console.error(error.response.data);
+        toast.error(error.response.data.error || "Error fetching data");
+      } else if (error.request) {
+        console.error(error.request);
+        toast.error("Error fetching data");
+      } else {
+        console.error("Error", error.message);
+        toast.error("Error fetching data");
+      }
+    }
+  };
   dispatch(list(data));
   dispatch(listType("customer"));
 
   // console.log(data);
 
-  const addCustomer = async (newCustomer) => {
-    dispatch(add_customer(null));
-
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/api/users",
-        newCustomer
-      );
-      toast.success(response.data);
-      // setData(response.data);
-      // console.log(response.data);
-      fetchData();
-    } catch (error) {
-      console.error(error);
-
-      if (error.response) {
-        console.error(error.response.data);
-        console.error(error.response.status);
-        toast.error(error.response.data.error);
-      } else if (error.request) {
-        console.error(error.request);
-      } else {
-        console.error("Error", error.message);
-      }
-    }
-  };
-
-  if (newCustomer !== null) {
-    addCustomer(newCustomer);
-  }
-
   const removeCustomer = async (id) => {
     try {
       const response = await axios.delete(
-        `http://localhost:5000/api/users/${id}`
+        `${process.env.REACT_APP_API_URL}/api/users/${id}`
       );
       const updatedData = data.filter((user) => user._id !== id);
       setData(updatedData);
@@ -128,7 +98,7 @@ export default function Customer({ toggle }) {
       searchItem,
       setFilteredData,
       filteredData
-    );
+    ); // eslint-disable-next-line
   }, [searchItem, searchType]);
 
   useEffect(() => {

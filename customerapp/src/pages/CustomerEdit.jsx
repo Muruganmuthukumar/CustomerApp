@@ -14,6 +14,7 @@ function CustomerEdit({ toggle }) {
   const { editingCustomer } = useSelector((state) => state.customer);
   const [editingItem, setEditingItem] = useState([]);
   const [image, setImage] = useState(null);
+  const [base64, setBase64] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -26,12 +27,12 @@ function CustomerEdit({ toggle }) {
   };
 
   useEffect(() => {
-    fetchByUserId();
+    fetchByUserId(); // eslint-disable-next-line
   }, []);
 const fetchByUserId = async () => {
   try {
     const response = await axios.get(
-      `http://localhost:5000/api/users/${editingCustomer._id}`
+      `${process.env.REACT_APP_API_URL}/api/users/${editingCustomer._id}`
     );
     setEditingItem(response.data);
   } catch (error) {
@@ -51,9 +52,10 @@ const fetchByUserId = async () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    editingItem.photoURL = image ? base64 : editingItem.photoURL
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/users/${editingCustomer._id}`,
+        `${process.env.REACT_APP_API_URL}/api/users/${editingCustomer._id}`,
         editingItem
       );
 
@@ -79,9 +81,32 @@ const fetchByUserId = async () => {
     navigate("/customer");
     dispatch(edit_Customer(null));
   };
-  const handleImage = (e) => {
-    setImage(e.target.files[0]);
-  };
+
+  const handleImage = async (e) => {
+   const file = e.target.files[0];
+   if (file) {
+     try {
+       const base64String = await convertImageToBase64(file);
+       setImage(file);
+       setBase64(base64String);
+       toast.info("Image Uploaded Successfully");
+     } catch (error) {
+       console.error(error);
+       toast.error("Error uploading image");
+     }
+   }
+ };
+
+ const convertImageToBase64 = (file) => {
+   return new Promise((resolve, reject) => {
+     const reader = new FileReader();
+     reader.onloadend = () => {
+       resolve(reader.result);
+     };
+     reader.onerror = reject;
+     reader.readAsDataURL(file);
+   });
+ };
   return (
     <>
       <div

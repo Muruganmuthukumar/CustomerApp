@@ -26,11 +26,11 @@ export default function OrderEdit({ toggle }) {
     });
   };
   useEffect(() => {
-    fetchByOrderId();
+    fetchByOrderId(); // eslint-disable-next-line
   }, []);
   const fetchByOrderId = async () => {
     await axios
-      .get(`http://localhost:5000/api/orders/${editingOrder._id}`)
+      .get(`${process.env.REACT_APP_API_URL}/api/orders/${editingOrder._id}`)
       .then((res) => {
         setEditingItem(res.data);
         // console.log(res.data);
@@ -44,7 +44,7 @@ export default function OrderEdit({ toggle }) {
     e.preventDefault();
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/orders/${editingOrder._id}`,
+        `${process.env.REACT_APP_API_URL}/api/orders/${editingOrder._id}`,
         editingItem
       );
       // console.log(response.data);

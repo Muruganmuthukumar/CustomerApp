@@ -95,7 +95,6 @@
     .dash-top {
         flex-direction: column;
         align-items: center;
-        background-color: aqua;
     }
 
     .dash-top-items {

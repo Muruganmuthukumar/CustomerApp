@@ -2,12 +2,12 @@ import React from "react";
 import "../Styles/CustomerEdit.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { add_customer } from "../redux/customer/customerSlice";
+import { useSelector } from "react-redux";
 import { FaChevronLeft, FaSave } from "react-icons/fa";
 import { useEffect } from "react";
 import { useRef } from "react";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 export default function CustomerAdd({ toggle }) {
   const fileRef = useRef(null);
@@ -15,38 +15,78 @@ export default function CustomerAdd({ toggle }) {
   const [editingItem, setEditingItem] = useState([]);
   const [select, setSelect] = useState(false);
   const [image, setImage] = useState(null);
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [base64, setBase64] = useState({});
+
   useEffect(() => {
     setEditingItem({ ...newCustomer });
   }, [newCustomer]);
 
-  const navigate = useNavigate();
   const handleChange = (e) => {
     const { id, value } = e.target;
     setEditingItem({
       ...editingItem,
       [id]: value,
     });
-    // console.log(editingItem);
   };
-  // console.log(editingItem);
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     editingItem.membership = select;
-    editingItem.photoURL =
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNAUvIj8tIlcc6MemlkLaXGlOLNplzf-3euA&usqp=CAU";
+    editingItem.photoURL = image ? base64 :"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNAUvIj8tIlcc6MemlkLaXGlOLNplzf-3euA&usqp=CAU";
     console.log(editingItem);
-    dispatch(add_customer(editingItem));
-    navigate("/customer");
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/users`,
+        editingItem
+      );
+      toast.success(response.data);
+      navigate("/customer");
+      // setData(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+
+      if (error.response) {
+        console.error(error.response.data);
+        console.error(error.response.status);
+        toast.error(error.response.data.error);
+      } else if (error.request) {
+        console.error(error.request);
+      } else {
+        console.error("Error", error.message);
+      }
+    }
   };
 
   const handleClose = () => {
     navigate("/customer");
   };
 
-  const handleImage = (e) => {
-    setImage(e.target.files[0]);
-    toast.info("Image Uploading Success");
+  const handleImage = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      try {
+        const base64String = await convertImageToBase64(file);
+        setImage(file);
+        setBase64(base64String)
+        toast.info("Image Uploaded Successfully");
+      } catch (error) {
+        console.error(error);
+        toast.error("Error uploading image");
+      }
+    }
+  };
+
+  const convertImageToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        resolve(reader.result);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
   };
   // console.log(image);
   return (

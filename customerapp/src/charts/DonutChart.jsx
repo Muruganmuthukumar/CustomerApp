@@ -1,24 +1,34 @@
 import React, { Component } from "react";
 import ReactApexChart from "react-apexcharts";
 
-class Donut extends React.Component {
+class Donut extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      series: [44, 55, 41, 17, 15],
+      series: [30, 25, 15, 20, 10],
       options: {
         chart: {
           type: "donut",
         },
+        labels: [
+          "Electronics",
+          "Clothing",
+          "Footwear",
+          "Accessories",
+          "Home Decor",
+        ],
         responsive: [
           {
             breakpoint: 480,
             options: {
               chart: {
                 width: 400,
-                height:300,
-              }
+                height: 300,
+              },
+              legend: {
+                position: "bottom",
+              },
             },
           },
         ],
@@ -33,10 +43,11 @@ class Donut extends React.Component {
           options={this.state.options}
           series={this.state.series}
           type="donut"
-          height={250}
+          height={300}
         />
       </div>
     );
   }
 }
+
 export default Donut;

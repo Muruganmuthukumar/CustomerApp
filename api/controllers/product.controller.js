@@ -1,12 +1,21 @@
 const Product = require("../models/product.model");
+const client = require('../redis')
+const DEFAULT_EXPIRATION = 3600;
 
 const getAllProducts = async (req, res) => {
     try {
-        const products = await Product.find();
-        if (!products) {
-            throw new Error("Server Busy");
+        const cachedProducts = await client.get('products')
+        if (cachedProducts != null) {
+            res.status(200).json(JSON.parse(cachedProducts));
         }
-        res.status(200).json(products);
+        else {
+            const products = await Product.find();
+            client.setEx("products",DEFAULT_EXPIRATION, JSON.stringify(products))
+            if (!products) {
+                throw new Error("Server Busy");
+            }
+            res.status(200).json(products);
+        }
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
@@ -33,9 +42,11 @@ const newProduct = async (req, res) => {
         const existingProduct = await Product.findOne({ title: title });
         if (existingProduct) {
             throw new Error("Product already exists!");
+        } else {
+            await product.save();
+            client.del('products')
+            res.status(201).json("Product added sucessfully");
         }
-        await product.save();
-        res.status(201).json("Product added sucessfully");
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
@@ -56,6 +67,7 @@ const editProduct = async (req, res) => {
             );
 
             if (updatedProduct) {
+                client.del('products')
                 res.status(200).json(updatedProduct);
             } else {
                 res.status(404).json({ error: 'Product not found' });
@@ -73,6 +85,7 @@ const deleteProduct = async (req, res) => {
         const deletedProduct = await Product.findByIdAndDelete(req.params.id);
 
         if (deletedProduct) {
+            client.del('products')
             res.json({ message: 'Product Deleted Successfully' });
         } else {
             res.status(404).json({ error: 'Product not found' });
