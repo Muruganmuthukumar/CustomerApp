@@ -10,13 +10,10 @@ import {
 } from "../redux/product/productSlice";
 import Card from "./Card";
 import {
-  delete_Order,
   edit_Order,
-  orderListData,
 } from "../redux/order/orderSlice";
 import Table from "./Table";
 import ListTop from "./ListTop";
-// import { setError } from "../redux/List/listSlice";
 
 export default function List({
   toggle,

@@ -14,7 +14,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
-import { setSuccess } from "../redux/List/listSlice";
 
 export default function SidePanel({ toggle, setToggle }) {
   const { success } = useSelector((state) => state.list); 
@@ -46,7 +45,6 @@ export default function SidePanel({ toggle, setToggle }) {
         position: toast.POSITION.BOTTOM_RIGHT,
         pauseOnHover: false,
       });
-      dispatch(setSuccess(""));
     }
   };
 

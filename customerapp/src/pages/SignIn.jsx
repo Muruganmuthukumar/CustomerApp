@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { isAuthenticated } from "../redux/auth/authSlice";
 import { useDispatch } from "react-redux";
 import "../Styles/SignIn.css";
-import { setSuccess } from "../redux/List/listSlice";
 import { toast } from "react-toastify";
 
 const SignIn = () => {
@@ -28,7 +27,6 @@ const SignIn = () => {
     .post("http://localhost:5000/api/admin/login", formData)
     .then((res) => {
         console.log(res.data);
-        dispatch(setSuccess(res.data));
         dispatch(isAuthenticated(true));
         navigate("/");
       })
