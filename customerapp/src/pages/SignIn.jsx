@@ -11,30 +11,32 @@ const SignIn = () => {
     username: "admin",
     password: "admin",
   });
+  const [loading, setLoading] = useState(false);
+  const [serverErr, setServerErr] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const errorMsg = (err) => {
-    toast.error(err, {
-      position: toast.POSITION.TOP_CENTER,
-      toastId:"id"
-    });
-  }
   
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true)
+    setServerErr('')
     axios
-    .post("http://localhost:5000/api/admin/login", formData)
-    .then((res) => {
-        console.log(res.data);
+      .post(`${process.env.REACT_APP_API_URL}/api/admin/login`, formData)
+      .then((res) => {
+        // console.log(res.data);
+        setLoading(false)
         dispatch(isAuthenticated(true));
+        toast.success(res.data, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          pauseOnHover: false,
+        });
         navigate("/");
       })
       .catch((err) => {
-        errorMsg(err.response.data);
+        setLoading(false)
+        setServerErr(err.response.data)
         // console.log(err.response.data);
       });
-    // console.log(formData);
   };
 
   const handleChange = (e) => {
@@ -45,7 +47,6 @@ const SignIn = () => {
     <>
       <section className="signin-container">
         <form onSubmit={handleSubmit}>
-          {/* <h2>Sign In</h2> */}
           <h1>Admin Dashboard</h1>
           <div className="input-container">
             <input
@@ -71,7 +72,10 @@ const SignIn = () => {
             />
             <label htmlFor="password">Password</label>
           </div>
-          <button>Sign In</button>
+          <small style={{
+            color: "red", fontWeight: "600",
+          marginTop:"15px"}}>{serverErr}</small>
+          <button>{loading?"Loading...":"Sign In" }</button>
         </form>
       </section>
     </>

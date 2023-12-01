@@ -1,7 +1,7 @@
 .about-container {
-    height: auto;
+    max-height: auto;
     width: 80%;
-    min-height: 100vh;
+    /* min-height: 100vh; */
     background-color: #fff;
     padding: 15px 20px;
     margin-top: 20px;
@@ -19,7 +19,7 @@
 }
 .about-content{
     margin:20px; 
-    height: auto;
+    height: 100%;
 }
 .about-content .header{
     margin-bottom: 25px;

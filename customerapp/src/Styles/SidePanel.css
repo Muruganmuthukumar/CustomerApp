@@ -226,6 +226,7 @@
     color: rgb(95, 29, 201);
     height: 10vh;
     font-size: 21px;
+    width: 100%;
     margin-left: 40px;
     text-transform: capitalize;
     display: flex;

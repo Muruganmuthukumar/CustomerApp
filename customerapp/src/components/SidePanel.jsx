@@ -10,13 +10,11 @@ import {
 import { FaCartShopping, FaGithub } from "react-icons/fa6";
 import { CgLogOut } from "react-icons/cg";
 import { isAuthenticated } from "../redux/auth/authSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useEffect } from "react";
 
 export default function SidePanel({ toggle, setToggle }) {
-  const { success } = useSelector((state) => state.list); 
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -34,19 +32,6 @@ export default function SidePanel({ toggle, setToggle }) {
     navigate("/signin");
   };
 
-  useEffect(() => {
-    loggedIn();
-    // eslint-disable-next-line
-  }, []);
-
-  const loggedIn = () => {
-    if (success) {
-      toast.success(success, {
-        position: toast.POSITION.BOTTOM_RIGHT,
-        pauseOnHover: false,
-      });
-    }
-  };
 
   return (
     <div className="container">

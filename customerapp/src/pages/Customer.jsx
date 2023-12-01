@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import List from "../components/List";
-import { useDispatch } from "react-redux";
-import { list, listType } from "../redux/List/listSlice";
 import {
   handleFilterCustomer,
   handleSearch,
@@ -11,10 +9,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 export default function Customer({ toggle }) {
-  const dispatch = useDispatch();
   const [data, setData] = useState([]);
-  const [searchType, setSearchType] = useState("");
-  // eslint-disable-next-line
+  const [searchType, setSearchType] = useState(""); // eslint-disable-next-line
   const [select, setSelect] = useState([
     "All",
     "Firstname",
@@ -25,8 +21,6 @@ export default function Customer({ toggle }) {
   const [filteredData, setFilteredData] = useState([]);
   const [searchItem, setSearchItem] = useState("");
   const [newData, setNewData] = useState([]);
-  // const { editingCustomer } = useSelector((state)=>state.customer)
-  // console.log(editingCustomer);
 
   useEffect(() => {
     fetchData(); // eslint-disable-next-line
@@ -54,10 +48,6 @@ export default function Customer({ toggle }) {
       }
     }
   };
-  dispatch(list(data));
-  dispatch(listType("customer"));
-
-  // console.log(data);
 
   const removeCustomer = async (id) => {
     try {
@@ -90,7 +80,6 @@ export default function Customer({ toggle }) {
     }
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     handleFilterCustomer(
       searchType,
@@ -121,6 +110,8 @@ export default function Customer({ toggle }) {
             setSearchItem={setSearchItem}
             removeCustomer={removeCustomer}
             searchItem={searchItem}
+            list={data}
+            listType="customer"
           />
         </div>
       </div>

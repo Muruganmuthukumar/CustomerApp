@@ -5,6 +5,7 @@ const productRouter = require('./routes/product.route');
 const userRouter = require('./routes/user.route');
 const adminRouter = require('./routes/admin.route');
 const orderRouter = require('./routes/order.route');
+const cryptojs = require('crypto-js')
 const cors = require('cors');
 dotenv.config();
 
@@ -24,6 +25,6 @@ app.use('/api/users', userRouter)
 app.use('/api/admin', adminRouter)
 app.use('/api/orders', orderRouter)
 
-app.listen(5000, () => {
+app.listen(proccess.env.PORT, () => {
     console.log("Server is running on port 5000");
 })

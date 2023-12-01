@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import List from "../components/List";
-import { useDispatch } from "react-redux";
-import { list, listType } from "../redux/List/listSlice";
 import { useEffect } from "react";
 import {
   handleFilterOrder,
@@ -12,11 +10,9 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 export default function Order({ toggle }) {
-  const dispatch = useDispatch();
   const [data, setData] = useState([]);
 
-  const [searchType, setSearchType] = useState();
-  // eslint-disable-next-line
+  const [searchType, setSearchType] = useState(); // eslint-disable-next-line
   const [select, setSelect] = useState(["All", "Productname", "Customername"]);
   const [filteredData, setFilteredData] = useState([]);
   const [newData, setNewData] = useState([]);
@@ -36,9 +32,7 @@ export default function Order({ toggle }) {
       .catch((err) => {
         console.log(err);
       });
-  }
-    dispatch(list(data));
-    dispatch(listType("order"));
+  } 
 
   const removeOrder = async (id) => {
     try {
@@ -100,6 +94,8 @@ export default function Order({ toggle }) {
         setSearchItem={setSearchItem}
         removeOrder={removeOrder}
         searchItem={searchItem}
+        list={data}
+        listType="order"
       />
     </div>
   );

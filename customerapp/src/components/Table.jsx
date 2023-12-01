@@ -13,7 +13,6 @@ import ReactPaginate from "react-paginate";
 function Table({
   list,
   listType,
-  listColumName,
   handleEdit,
   currentItems,
   setDeletingId,
@@ -23,12 +22,11 @@ function Table({
   handlePageClick,
   searchItem,
 }) {
-
   return (
     <>
       {searchItem && list.length === 0 && (
         <h4 className="exception">no search result for "{searchItem}"</h4>
-        )}
+      )}
       {list.length === 0 ? (
         <h4 className="exception">List is Empty!</h4>
       ) : (
@@ -75,7 +73,8 @@ function Table({
                       Grand Total(
                       <FaRupeeSign style={{ height: "12px", width: "12px" }} />)
                     </th>
-                    <th>Actions</th>
+                    {/* <th>Actions</th> */}
+                    <th>Order Status</th>
                   </tr>
                 )}
               </thead>
@@ -131,24 +130,26 @@ function Table({
                               <span style={{ fontSize: "12px" }}>x</span>
                             </td>
                             <td>{data.price * data.quantity}</td>
+                            <td className="success">Success</td>
                           </>
                         )}
-
-                        <td>
-                          <button onClick={() => handleEdit(data)}>
-                            <FaPen className="edit-icon icon" />
-                            <span className="tooltip">Edit</span>
-                          </button>
-                          <button
-                            onClick={() => {
-                              setDeletingId(data._id);
-                              setShow(!show);
-                            }}
-                          >
-                            <FaTrash className="delete-icon icon" />
-                            <span className="tooltip">Delete</span>
-                          </button>
-                        </td>
+                        {listType !== "order" && (
+                          <td>
+                            <button onClick={() => handleEdit(data)}>
+                              <FaPen className="edit-icon icon" />
+                              <span className="tooltip">Edit</span>
+                            </button>
+                            <button
+                              onClick={() => {
+                                setDeletingId(data._id);
+                                setShow(!show);
+                              }}
+                            >
+                              <FaTrash className="delete-icon icon" />
+                              <span className="tooltip">Delete</span>
+                            </button>
+                          </td>
+                        )}
                       </tr>
                     );
                   })}

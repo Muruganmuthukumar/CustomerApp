@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import List from "../components/List";
-import { useDispatch} from "react-redux";
-import { list, listType } from "../redux/List/listSlice";
 import {
   handleFilterProduct,
   handleSearch,
@@ -11,10 +9,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 export default function Product({ toggle }) {
-  const dispatch = useDispatch();
   const [data, setData] = useState([]);
-  const [searchType, setSearchType] = useState();
-  // eslint-disable-next-line
+  const [searchType, setSearchType] = useState(); // eslint-disable-next-line
   const [select, setSelect] = useState([
     "All",
     "Productname",
@@ -49,8 +45,6 @@ export default function Product({ toggle }) {
       }
     }
   }
-    dispatch(list(data));
-    dispatch(listType("product"));
 
   const removeProduct = async (id) => {
     try {
@@ -115,6 +109,8 @@ export default function Product({ toggle }) {
             setSearchItem={setSearchItem}
             removeProduct={removeProduct}
             searchItem={searchItem}
+            list={data}
+            listType="product"
           />
         </div>
       </div>

@@ -157,13 +157,12 @@
 }
 
 .form-container button:hover {
-    opacity: 75%;
+    opacity: 85%;
 }
 
 .form-container button:last-child {
     background-color: rgba(0, 0, 255, 0.801);
-    opacity: 95%;
-    color: #e9e9e9;
+    color: #fcfcfc;
 }
 
 .form-container button:last-child:disabled{

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../Styles/List.css";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   edit_Customer,
 } from "../redux/customer/customerSlice";
@@ -28,8 +28,9 @@ export default function List({
   removeProduct,
   removeOrder,
   searchItem,
+  list,
+  listType
 }) {
-  const { list, listColumName, listType } = useSelector((state) => state.list);
   const [show, setShow] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
   const [newList, setNewList] = useState([]);
@@ -41,14 +42,13 @@ export default function List({
   const endOffset = itemOffset + itemsPerPage;
   const currentItems = newList.slice(itemOffset, endOffset);
   const pageCount = Math.ceil(list.length / itemsPerPage);
-
+ 
   useEffect(() => {
     try {
       setNewList([...list]);
       setData([...list]);
       // console.log(newList,"newList");
     } catch (err) {
-      // dispatch(setError("List is Empty"))
       console.log("List is Empty", err);
     }
   }, [list]);
@@ -143,7 +143,6 @@ export default function List({
         <Table
           list={list}
           listType={listType}
-          listColumName={listColumName}
           handleEdit={handleEdit}
           currentItems={currentItems}
           setDeletingId={setDeletingId}

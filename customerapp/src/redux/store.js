@@ -1,5 +1,4 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import listReducer from './List/listSlice';
 import customerReducer from './customer/customerSlice';
 import productReducer from './product/productSlice';
 import orderReducer from './order/orderSlice';
@@ -8,7 +7,6 @@ import storage from 'redux-persist/lib/storage';
 import authReducer from './auth/authSlice';
 
 const rootReducer = combineReducers({
-  list: listReducer,
   customer: customerReducer,
   product:productReducer,
   order: orderReducer,

@@ -82,6 +82,26 @@
     position: relative;
 }
 
+.pages-container table tbody tr .success {
+    text-shadow: 0px 0px 2px rgb(27, 255, 27);
+    color: rgba(0, 214, 0, 0.671);
+    border-radius: 50%;
+    animation: animate 1.5s linear infinite;
+}
+
+@keyframes animate {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 85%;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
 
 .pages-container table tbody td {
     text-align: left;
@@ -154,8 +174,8 @@
 
 .pages-container tbody button .tooltip {
     position: absolute;
-    top: 55px;
-    left: 20px;
+    top: 50px;
+    left: 15px;
     height: 0;
     width: 40px;
     font-size: 10px;
@@ -164,10 +184,11 @@
     justify-content: center;
     align-items: center;
     color: #fcfcfc;
-    border-radius: 5px;
+    border-radius: 4px;
     background-color: rgba(92, 92, 92, 0.712);
     visibility: hidden;
     transition: all .2s ease-in;
+    pointer-events: none;
 }
 
 .pages-container tbody button:hover .tooltip {
@@ -276,8 +297,46 @@
     border: none;
     outline: none;
     cursor: pointer;
+    position: relative;
 }
 
+.list-top .btn-container button .tooltip {
+    position: absolute;
+    top: 57px;
+    right: 0px;
+    height: 0px;
+    width: 100px;
+    font-size: 11px; 
+    font-weight: 500;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fcfcfc;
+    border-radius: 5px;
+    background-color: rgba(92, 92, 92, 0.712);
+    visibility: hidden;
+    transition: all .2s ease-in;
+    letter-spacing: .9px;
+    pointer-events: none;
+}
+.list-top .btn-container button:hover .tooltip {
+    height: 25px;
+    visibility: visible;
+}
+
+.list-top .btn-container button .tooltip:before{
+    position: absolute;
+    content: "";
+    display: block;
+    top: -8px;
+    height:0px;
+    width: 0px;
+    border-bottom: 8px solid rgba(92, 92, 92, 0.712);
+    border-right: 10px solid transparent;
+    border-left: 10px solid transparent;
+    /* border-top: 8px solid transparent; */
+}
 .list-top .btn-container button:hover {
     opacity: 85%;
 }
@@ -294,7 +353,7 @@
     opacity: 98%;
 }
 
-.list-top .btn-container button:first-child {
+.list-top .btn-container button {
     background-color: green;
     color: white;
 }
